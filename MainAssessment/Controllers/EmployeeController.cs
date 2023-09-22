@@ -17,13 +17,13 @@ namespace MainAssessment.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllEmployees()
         {
             return Ok(_employeeService.GetAllEmployees());
         }
 
         [HttpPost]
-        public IActionResult Create(EmployeeDTO employeeDTO)
+        public IActionResult CreateEmployee(EmployeeDTO employeeDTO)
         {
             try
             {
@@ -37,8 +37,8 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{Id}")]
-        public async Task<IActionResult> Delete(int id)
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteEmployee(int id)
         {
             try
             {
@@ -51,8 +51,8 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPatch("Update")]
-        public IActionResult Update(int id, EmployeeDTO updatedEmployee)
+        [HttpPatch("{id}")]
+        public IActionResult UpdateEmployee(int id, EmployeeDTO updatedEmployee)
         {
             try
             {

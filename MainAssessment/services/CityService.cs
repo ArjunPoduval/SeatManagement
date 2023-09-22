@@ -20,7 +20,7 @@ namespace MainAssessment.services
 
             return repository.GetAll();
         }
-        public void AddCity(CityLookupDTO city)
+        public void AddCity(CityDTO city)
         {
         //Validation
 
@@ -53,31 +53,6 @@ namespace MainAssessment.services
                 repository.Remove(item);
                 repository.Save();
             }
-        }
-
-        public void UpdateCity(string cityName, CityLookupDTO updatedCityData)
-        {
-        //validation
-
-            var citytoupdate = repository.GetAll().FirstOrDefault(c => c.CityName == cityName);
-
-            if (citytoupdate == null)
-            {
-                throw new Exception("No City Found.");
-            }
-            var citytoCheck = repository.GetAll().FirstOrDefault(c => c.CityName == updatedCityData.City && c.CityAbbreviation == updatedCityData.Abbreviation);
-
-            if (citytoCheck!=null)
-            {
-                throw new Exception("similar data already exist.");
-            }
-        //Updation
-
-            citytoupdate.CityName = updatedCityData.City;
-            citytoupdate.CityAbbreviation = updatedCityData.Abbreviation;
-
-            repository.Update(citytoupdate);
-            repository.Save();
         }
 
     }

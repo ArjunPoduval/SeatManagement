@@ -17,13 +17,13 @@ namespace MainAssessment.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllMeetingRooms()
         {
             return Ok(_meetingRoomTableService.GetAllMeetingRooms());
         }
 
         [HttpPost]
-        public IActionResult Create(MeetingroomDTO meetingRoomTableDTO)
+        public IActionResult CreateMeetingRoom(MeetingroomDTO meetingRoomTableDTO)
         {
             try
             {
@@ -36,8 +36,8 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPut("Update")]
-        public IActionResult Update(int id, MeetingroomDTO updatedMeetingRoomTable)
+        [HttpPut("{id}")]
+        public IActionResult UpdateMeetingRoom(int id, MeetingroomDTO updatedMeetingRoomTable)
         {
             try
             {
@@ -51,8 +51,8 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{Id}")]
-        public async Task<IActionResult> Delete(int id)
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteMeetingRoom(int id)
         {
             try
             {

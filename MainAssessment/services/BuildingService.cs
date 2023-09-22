@@ -6,63 +6,63 @@ namespace MainAssessment.services
 {
     public class BuildingService : IBuilding
     {
-        private readonly IRepository<Building> repository;
-        private readonly IRepository<CityLookup> Cityrepository;
-        public BuildingService(IRepository<Building> repository, IRepository<CityLookup> repository1)
+        private readonly IRepository<Building> buildingRepository;
+        private readonly IRepository<CityLookup> cityRepository;
+        public BuildingService(IRepository<Building> buildingRepository, IRepository<CityLookup> cityRepository)
         {
-            this.repository = repository;
-            this.Cityrepository = repository1;
+            this.buildingRepository = buildingRepository;
+            this.cityRepository = cityRepository;
         }
 
-        public IEnumerable<Building> GetAll()
+        public IEnumerable<Building> GetAllBuildings()
         {
-          
-            return (repository.GetAll());
+
+            return (buildingRepository.GetAll());
         }
 
         public void AddBuilding(BuildingDTO building)
         {
-            int cityid = building.CityId;
-            var exist = Cityrepository.GetById(cityid);
+            int cityId = building.CityId;
+            var exist = cityRepository.GetById(cityId);
 
-        //validation
+            //validation
             if (exist == null)
             {
                 throw new Exception("The City Id does not exist.");
             }
-            
-            var buildingcreation = repository.GetAll().FirstOrDefault(c => c.BuildingName == building.BuildingName && c.BuildingAbbreviation == building.BuildingAbbreviation);
+
+            var buildingcreation = buildingRepository.GetAll().FirstOrDefault(c => c.BuildingName == building.BuildingName && c.BuildingAbbreviation == building.BuildingAbbreviation);
             if (buildingcreation != null)
             {
                 throw new Exception("Similar Building Name or Abbreviation already exist.");
             }
-        //insertion   
+            //insertion   
             var item = new Building()
             {
                 BuildingAbbreviation = building.BuildingAbbreviation,
                 BuildingName = building.BuildingName,
                 CityId = building.CityId
             };
-            repository.Add(item);
-            repository.Save();
+            buildingRepository.Add(item);
+            buildingRepository.Save();
         }
         public void RemoveBuilding(int buildingId)
         {
-        //validation
+            //validation
 
-            var item = repository.GetById(buildingId);
+            var item = buildingRepository.GetById(buildingId);
             if (item == null)
             {
                 throw new Exception("The Building does not exist.");
             }
 
-        //removing
+            //removing
             else
             {
-                repository.Remove(item);
-                repository.Save();
+                buildingRepository.Remove(item);
+                buildingRepository.Save();
             }
         }
-  
+
     }
 }

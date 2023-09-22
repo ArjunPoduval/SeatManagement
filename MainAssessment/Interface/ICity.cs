@@ -6,8 +6,7 @@ namespace MainAssessment.Interface
     public interface ICity
     {
         IEnumerable<CityLookup> GetAllCity();
-        void AddCity(CityLookupDTO City);
+        void AddCity(CityDTO City);
         void RemoveCity(int CityID);
-        void UpdateCity(string cityName, CityLookupDTO updatedCityData);
     }
 }

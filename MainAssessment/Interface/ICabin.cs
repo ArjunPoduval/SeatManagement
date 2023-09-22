@@ -8,8 +8,7 @@ namespace MainAssessment.Interface
     {
         IEnumerable<CabinTable> GetAllCabins();
         void AddCabin(CabinTableDTO cabinTableDTO);
-        void AllocateEmployeeToCabin(CabinAllocationDTO cabinAllocationDTO);
-        void DeallocateEmployeeFromCabin(CabinDeallocationDTO cabinDeallocationDTO);
+        void UpdateCabinDetail(int cabinId, int? employeeId);
         void RemoveCabin(int cabinId);
     }
 }

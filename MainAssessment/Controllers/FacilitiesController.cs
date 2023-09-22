@@ -19,13 +19,13 @@ namespace MainAssessment.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllFacility()
         {
             return Ok(facilityService.GetAll());
         }
 
         [HttpPost]
-        public IActionResult Create(FacilityDTO facilityDTO)
+        public IActionResult CreateFacility(FacilityDTO facilityDTO)
         {
             try
             {
@@ -39,8 +39,8 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{Id}")]
-        public async Task<IActionResult> Delete(int FacilityId)
+        [Route("{facilityId}")]
+        public async Task<IActionResult> DeleteFacility(int FacilityId)
         {
             try
             {

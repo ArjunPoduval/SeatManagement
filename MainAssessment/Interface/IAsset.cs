@@ -6,7 +6,7 @@ namespace MainAssessment.Interface
     public interface IAsset
     {
         IEnumerable<Assets> GetAllAssets();
-        void AddAssets(AssetInsertionDTO assets);
+        void AddAssets(AssetCreationDTO assets);
         void UpdateAssetDetails(int assetsIndexId, int? meetingRoomId);
         void RemoveAssets(int assetsIndexId);
     }

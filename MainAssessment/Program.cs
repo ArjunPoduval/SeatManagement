@@ -32,8 +32,7 @@ builder.Services.AddSingleton < IAssetType,AssetLookupService>();
 builder.Services.AddSingleton < IMeetingroom,MeetingRoomTableService>();
 builder.Services.AddSingleton < ISeat,SeatTableService>();
 builder.Services.AddSingleton < ICabin,CabinTableService>();
-builder.Services.AddSingleton < IUnAllocatedReportCall,UnAllocatedService>();
-builder.Services.AddSingleton < IAllocatedReportCall,AllocatedService>();
+builder.Services.AddSingleton < IReportCall,AllocatedService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

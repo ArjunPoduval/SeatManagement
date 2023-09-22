@@ -10,20 +10,24 @@ namespace MainAssessment.Controllers
     public class SeatController : Controller
     {
         private readonly ISeat _seatTableService;
+        private readonly IReportCall _unallocated;
+        private readonly IReportCall _allocated;
 
-        public SeatController(ISeat seatTableService)
+        public SeatController(ISeat seatTableService, IReportCall unallocated, IReportCall allocated)
         {
             _seatTableService = seatTableService;
+            _unallocated = unallocated;
+            _allocated = allocated;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllSeats()
         {
             return Ok(_seatTableService.GetAllSeats());
         }
 
         [HttpPost]
-        public IActionResult Create(SeatTableDTO seatTableDTO)
+        public IActionResult CreateSeat(SeatTableDTO seatTableDTO)
         {
             try
             {
@@ -36,26 +40,12 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPatch("Allocate")]
-        public IActionResult AllocateEmployee(SeatAllocationDTO seatAllocationDTO)
+        [HttpPatch("{seatID}")]
+        public IActionResult UpdateSeatDetail(int seatId,int? employeeId)
         {
             try
             {
-                _seatTableService.AllocateEmployeeToSeat(seatAllocationDTO);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPatch("Deallocate")]
-        public IActionResult DeallocateEmployee(SeatDeallocationDTO seatDeallocationDTO)
-        {
-            try
-            {
-                _seatTableService.DeallocateEmployeeFromSeat(seatDeallocationDTO);
+                _seatTableService.UpdateSeatDetail(seatId,employeeId);
                 return Ok();
             }
             catch (Exception ex)
@@ -66,7 +56,7 @@ namespace MainAssessment.Controllers
 
         [HttpDelete]
         [Route("{Id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteSeat(int id)
         {
             try
             {
@@ -77,6 +67,18 @@ namespace MainAssessment.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("{allocationType}")]
+        
+        public IActionResult GenerateSeatAllocationReport(int allocationType,SeatAllocationReportRequest allocationFilterRequest)
+        {
+            if (allocationType == 1)
+            {
+                return Ok(_allocated.GetAllAllocatedSeats());
+            }
+            return Ok(_unallocated.GetAllUnallocatedSeats());
+
         }
     }
 }

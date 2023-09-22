@@ -1,7 +1,7 @@
 ﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
 
 namespace MainAssessment.Controllers
 {
@@ -17,13 +17,13 @@ namespace MainAssessment.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllAssets()
         {
-            return Ok(_assetsService.GetAllAssets());
+            return  Ok(_assetsService.GetAllAssets());
         }
 
         [HttpPost]
-        public IActionResult Create(AssetInsertionDTO assetsDTO)
+        public IActionResult CreateAsset(AssetCreationDTO assetsDTO)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace MainAssessment.Controllers
         }
 
         [HttpPatch("{assetIndexId}")]
-        public IActionResult UpdateAssetDetails([FromRoute] int assetIndexId, int? meetingRoomId)
+        public IActionResult UpdateAssetDetails( int assetIndexId, int? meetingRoomId)
         {
             try
             {
@@ -51,12 +51,12 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
-        public async Task<IActionResult> Delete(int AssetIndexId)
+        [Route("{assetIndexId}")]
+        public async Task<IActionResult> DeleteAsset(int assetIndexId)
         {
             try
             {
-                _assetsService.RemoveAssets(AssetIndexId);
+                _assetsService.RemoveAssets(assetIndexId);
                 return Ok();
             }
             catch (Exception ex)

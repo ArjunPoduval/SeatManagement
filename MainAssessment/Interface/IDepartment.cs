@@ -7,8 +7,8 @@ namespace MainAssessment.Interface
 {
     public interface IDepartment
     {
-        IEnumerable<Department> GetAll();
-        void AddDepartment(string department);
+        IEnumerable<Department> GetAllDepartments();
+        void AddDepartment(DepartmentCreationDTO newDepartment);
         void RemoveDepartment(int DepId);
     }
 }

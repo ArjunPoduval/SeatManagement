@@ -16,13 +16,13 @@ namespace MainAssessment.Controllers
             this.buildingService = buildingServices;
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllBuildings()
         {
-            return Ok(buildingService.GetAll());
+            return Ok(buildingService.GetAllBuildings());
         }
 
         [HttpPost]
-        public IActionResult Create(BuildingDTO buildingDTO)
+        public IActionResult CreateBuilding(BuildingDTO buildingDTO)
         {
             try
             {
@@ -38,12 +38,12 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{Id}")]
-        public async Task<IActionResult> Delete(int BuildingId)
+        [Route("{buildingId}")]
+        public async Task<IActionResult> DeleteBuilding(int buildingId)
         {
             try
             {
-                buildingService.RemoveBuilding(BuildingId);
+                buildingService.RemoveBuilding(buildingId);
 
                 return Ok();
             }

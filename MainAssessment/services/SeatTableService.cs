@@ -49,13 +49,12 @@ namespace MainAssessment.services
             _seatTableRepository.Save();
         }
 
-        public void AllocateEmployeeToSeat(SeatAllocationDTO seatAllocationDTO)
+        public void UpdateSeatDetail(int seatId, int? employeeId)
         {
         //validation
 
             // Check if the seat exists
-            var seat = _seatTableRepository.GetAll()
-                .FirstOrDefault(s => s.FacilityId == seatAllocationDTO.FacilityId && s.SeatNumber == seatAllocationDTO.SeatNumber);
+            var seat = _seatTableRepository.GetById(seatId);
 
             if (seat == null)
             {
@@ -63,72 +62,53 @@ namespace MainAssessment.services
             }
 
             //check seat is already allocated
-            if (seat.EmployeeId != null)
+            if (seat.EmployeeId != null && employeeId!= null)
             {
                 throw new Exception("Already occupied by an employee");
-            }
-            if (!_employeeRepository.GetAll().Any(c => c.EmployeeId == seatAllocationDTO.EmployeeId))
+            } 
+            if (seat.EmployeeId == null && employeeId== null)
             {
-                throw new Exception("Employee doesn't exist.");
+                throw new Exception("Already unallocated");
             }
+
+           
             //employee is not already allocated another seat.
-            if (_employeeRepository.GetAll().Any(c => c.EmployeeId == seatAllocationDTO.EmployeeId && c.IsAllocated == true))
+            if (_employeeRepository.GetAll().Any(c => c.EmployeeId == employeeId && c.IsAllocated == true))
             {
                 throw new Exception("Employee is already allocated");
             }
 
-
-            // Set EmployeeId in SeatTable and isallocated in Employee table
-            seat.EmployeeId = seatAllocationDTO.EmployeeId;
-
-            if (seatAllocationDTO.EmployeeId.HasValue)
-            {
-                var employee = _employeeRepository.GetById(seatAllocationDTO.EmployeeId.Value);
-                if (employee != null)
-                {
-                    employee.IsAllocated = true;
-                    _employeeRepository.Update(employee);
-                }
-            }
-
-            _seatTableRepository.Update(seat);
-            _seatTableRepository.Save();
-        }
-
-        public void DeallocateEmployeeFromSeat(SeatDeallocationDTO seatDeallocationDTO)
-        {
-            // Check if FacilityId exists in Facility table
-            if (!_facilityRepository.GetAll().Any(f => f.FacilityId == seatDeallocationDTO.FacilityId))
-            {
-                throw new Exception("The Facility does not exist.");
-            }
-
-            // Check if the seat exists
-            var seat = _seatTableRepository.GetAll()
-                .FirstOrDefault(s => s.FacilityId == seatDeallocationDTO.FacilityId && s.SeatNumber == seatDeallocationDTO.SeatNumber);
-
-            if (seat == null)
-            {
-                throw new Exception("The Seat does not exist.");
-            }
-
-            var employeeId = seat.EmployeeId;
-            seat.EmployeeId = null;
 
             if (employeeId.HasValue)
             {
                 var employee = _employeeRepository.GetById(employeeId.Value);
                 if (employee != null)
                 {
+                    employee.IsAllocated = true;
+                    _employeeRepository.Update(employee);
+                }
+                else
+                {
+                    throw new Exception("Employee doen't Exist");
+                }
+            }
+            if (employeeId == null)
+            {
+                var employee = _employeeRepository.GetById(seat.EmployeeId.Value);
+                if (employee != null)
+                {
                     employee.IsAllocated = false;
                     _employeeRepository.Update(employee);
                 }
             }
-           
+
+            // Set EmployeeId in SeatTable and isallocated in Employee table
+            seat.EmployeeId = employeeId;
 
             _seatTableRepository.Update(seat);
             _seatTableRepository.Save();
         }
+
          
         public void RemoveSeat(int seatId)
         {

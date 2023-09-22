@@ -9,8 +9,7 @@ namespace MainAssessment.Interface
     {
         IEnumerable<SeatTable> GetAllSeats();
         void AddSeat(SeatTableDTO seatTable);
-        void AllocateEmployeeToSeat(SeatAllocationDTO seatAllocationDTO);
-        void DeallocateEmployeeFromSeat(SeatDeallocationDTO seatDeallocationDTO);
+        void UpdateSeatDetail(int seatId,int? employeeId);
         void RemoveSeat(int seatId);
     }
 }

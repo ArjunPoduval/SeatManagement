@@ -7,9 +7,8 @@ namespace MainAssessment.Interface
 {
     public interface IAssetType
     {
-        IEnumerable<AssetLookup> GetAllAssetLookups();
-        void AddAssetLookup(string AssetName);
-        void UpdateAssetLookup(int assetLookupId,string AssetName);
-        void RemoveAssetLookup(int assetLookupId);
+        IEnumerable<AssetLookup> GetAllAssetTypes();
+        void AddAssetType(AssetTypeCreation assetTypeCreation);
+        void RemoveAssetType(int assetLookupId);
     }
 }

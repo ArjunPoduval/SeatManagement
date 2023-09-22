@@ -17,15 +17,15 @@ namespace MainAssessment.services
             _assetLookupRepository = assetLookupRepository;
         }
 
-        public IEnumerable<AssetLookup> GetAllAssetLookups()
+        public IEnumerable<AssetLookup> GetAllAssetTypes()
         {
             return _assetLookupRepository.GetAll();
         }
 
-        public void AddAssetLookup(string AssetName)
+        public void AddAssetType(AssetTypeCreation newAssetType)
         {
         //Validation
-            var lookupcreation = _assetLookupRepository.GetAll().FirstOrDefault(c => c.AssetName==AssetName);
+            var lookupcreation = _assetLookupRepository.GetAll().FirstOrDefault(c => c.AssetName==newAssetType.assetName);
             if (lookupcreation != null)
             {
                 throw new Exception("Similar Asset already exist.");
@@ -33,34 +33,13 @@ namespace MainAssessment.services
         //Creation
             var item = new AssetLookup()
             {
-                AssetName = AssetName
+                AssetName = newAssetType.assetName
             };
             _assetLookupRepository.Add(item);
             _assetLookupRepository.Save();
         }
 
-        public void UpdateAssetLookup(int assetLookupId, string AssetName)
-        {
-        //Validation
-            var assetLookup = _assetLookupRepository.GetById(assetLookupId);
-            if (assetLookup == null)
-            {
-                throw new Exception("The Asset does not exist.");
-            }
-            var Lookupcheck = _assetLookupRepository.GetAll().FirstOrDefault(c => c.AssetName == AssetName);
-            if (Lookupcheck != null)
-            {
-                throw new Exception("Similar Asset already exist.");
-            }
-
-        // Update the AssetName
-            assetLookup.AssetName = AssetName;
-
-            _assetLookupRepository.Update(assetLookup);
-            _assetLookupRepository.Save();
-        }
-
-        public void RemoveAssetLookup(int assetLookupId)
+        public void RemoveAssetType(int assetLookupId)
         {
         //Validation
             var assetLookup = _assetLookupRepository.GetById(assetLookupId);

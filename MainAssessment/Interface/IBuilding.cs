@@ -5,8 +5,8 @@ namespace MainAssessment.Interface
 {
     public interface IBuilding
     {
-        IEnumerable<Building> GetAll();
+        IEnumerable<Building> GetAllBuildings();
         void  AddBuilding(BuildingDTO building);
-        void RemoveBuilding(int BuildingId);
+        void RemoveBuilding(int buildingId);
     }
 }

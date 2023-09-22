@@ -30,7 +30,7 @@ namespace MainAssessment.services
             return _assetsRepository.GetAll();
         }
 
-        public void AddAssets(AssetInsertionDTO assets)
+        public void AddAssets(AssetCreationDTO assets)
         {
             //Validation
             // Check if FacilityId exists in Facility table

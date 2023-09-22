@@ -46,13 +46,14 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPatch("Allocate")]
-        public IActionResult AllocateEmployeeToCabin(CabinAllocationDTO cabinAllocationDTO)
+        [HttpPatch]
+        [Route("{cabinId}")]
+        public IActionResult UpdateCabin(int cabinId,int? employeeId)
         {
             try
             {
-                _cabinTableService.AllocateEmployeeToCabin(cabinAllocationDTO);
-                return Ok("Employee allocated to cabin successfully.");
+                _cabinTableService.UpdateCabinDetail(cabinId,employeeId);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -60,22 +61,9 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPatch("Deallocate")]
-        public IActionResult DeallocateEmployeeFromCabin(CabinDeallocationDTO cabinDeallocationDTO)
-        {
-            try
-            {
-                _cabinTableService.DeallocateEmployeeFromCabin(cabinDeallocationDTO);
-                return Ok("Employee deallocated from cabin successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
-        }
 
         [HttpDelete]
-        [Route("{Id}")]
+        [Route("{cabinId}")]
         public IActionResult RemoveCabin(int cabinId)
         {
             try

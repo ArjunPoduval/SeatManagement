@@ -200,7 +200,7 @@ namespace SeatManagementConsoleFrontend
 
         public void OnboardAssets()
         {
-            ISeatManagerAPI<AssetInsertionDTO> addasset = new SeatManagementAPICall<AssetInsertionDTO>("Assets");
+            ISeatManagerAPI<AssetCreationDTO> addasset = new SeatManagementAPICall<AssetCreationDTO>("Assets");
             ISeatManagerAPI<AssetLookup> assetlookupmanager = new SeatManagementAPICall<AssetLookup>("AssetLookup");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
@@ -231,7 +231,7 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter AssetId: ");
             int Assetid = Convert.ToInt32(Console.ReadLine());
 
-            var asset = new AssetInsertionDTO
+            var asset = new AssetCreationDTO
             {
                 FacilityId = facilityId,
                 AssetId = Assetid

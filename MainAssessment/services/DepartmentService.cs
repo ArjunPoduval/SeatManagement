@@ -15,15 +15,15 @@ namespace MainAssessment.services
             this.repository = repository;
         }
 
-        public IEnumerable<Department> GetAll()
+        public IEnumerable<Department> GetAllDepartments()
         {
             return repository.GetAll();
         }
 
-        public void AddDepartment(string departmentname)
+        public void AddDepartment(DepartmentCreationDTO newDepartment)
         {
         //Validation
-            var departmentcreation = repository.GetAll().FirstOrDefault(c => c.DepartmentName == departmentname);
+            var departmentcreation = repository.GetAll().FirstOrDefault(c => c.DepartmentName == newDepartment.departmentName);
             if (departmentcreation != null)
             {
                 throw new Exception("Similar Department already exist.");
@@ -31,7 +31,7 @@ namespace MainAssessment.services
         //Creation
             var item = new Department()
             {
-                DepartmentName = departmentname
+                DepartmentName = newDepartment.departmentName
             };
             repository.Add(item);
             repository.Save();

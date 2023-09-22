@@ -18,17 +18,17 @@ namespace MainAssessment.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult DepartmentDetails()
         {
-            return Ok(departmentService.GetAll());
+            return Ok(departmentService.GetAllDepartments());
         }
 
         [HttpPost]
-        public IActionResult Create(String departmentName)
+        public IActionResult CreateDepartment(DepartmentCreationDTO newDepartment)
         {
             try
             {
-                departmentService.AddDepartment(departmentName);
+                departmentService.AddDepartment(newDepartment);
                 return Ok();
             }
             catch (Exception ex)
@@ -38,12 +38,12 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{Id}")]
-        public async Task<IActionResult> Delete(int DepId)
+        [Route("{depId}")]
+        public async Task<IActionResult> DeleteDepartment(int depId)
         {
             try
             {
-                departmentService.RemoveDepartment(DepId);
+                departmentService.RemoveDepartment(depId);
                 return Ok();
             }
             catch (Exception ex)

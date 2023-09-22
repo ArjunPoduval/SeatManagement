@@ -20,23 +20,23 @@ namespace MainAssessment.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetDetails()
+        public IActionResult GetAllCity()
         {
             return Ok(cityServices.GetAllCity());
         }
 
         [HttpPost]
-        public IActionResult Create(CityLookupDTO cityLookupDTO)
+        public IActionResult CreateCity(CityDTO cityDTO)
         {
          
-                cityServices.AddCity(cityLookupDTO);
+                cityServices.AddCity(cityDTO);
 
                 return Ok();
            
         }
         [HttpDelete]
-        [Route("{Id}")]
-        public async Task<IActionResult> Delete(int cityId)
+        [Route("{cityId}")]
+        public async Task<IActionResult> DeleteCity(int cityId)
         {
             try
             {
@@ -51,20 +51,6 @@ namespace MainAssessment.Controllers
 
         }
 
-        [HttpPatch("Update")]
-        public IActionResult Update(string cityName,CityLookupDTO updatedCityData)
-        {
-            try
-            {
-                cityServices.UpdateCity(cityName, updatedCityData);
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
-        }
     }
 }

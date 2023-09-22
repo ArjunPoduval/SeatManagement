@@ -51,74 +51,50 @@ namespace MainAssessment.services
             _cabinTableRepository.Save();
         }
 
-        public void AllocateEmployeeToCabin(CabinAllocationDTO cabinAllocationDTO)
+        public void UpdateCabinDetail(int cabinId, int? employeeId)
         {
             
             // Check if the cabin exists
             var cabin = _cabinTableRepository.GetAll()
-                .FirstOrDefault(c => c.FacilityId == cabinAllocationDTO.FacilityId && c.CabinNumber == cabinAllocationDTO.CabinNumber);
+                .FirstOrDefault(c => c.CabinId == cabinId);
 
             if (cabin == null)
             {
                 throw new Exception("The Cabin does not exist.");
             }
             //if its occupied
-            if (cabin.EmployeeId != null)
+            if (cabin.EmployeeId != null && employeeId!= null)
             {
                 throw new Exception("Already occupied by an employee");
             }
-
-            if (!_employeeRepository.GetAll().Any(c => c.EmployeeId == cabinAllocationDTO.EmployeeId))
+            if (cabin.EmployeeId == null && employeeId == null)
             {
-                throw new Exception("Employee doesn't exist.");
+                throw new Exception("Already unallocated");
             }
+
             //employee is not already allocated another seat.
-            if (_employeeRepository.GetAll().Any(c => c.EmployeeId == cabinAllocationDTO.EmployeeId && c.IsAllocated == true))
+            if (_employeeRepository.GetAll().Any(c => c.EmployeeId == employeeId && c.IsAllocated == true))
             {
                 throw new Exception("Employee is already allocated");
             }
 
 
-            // Set EmployeeId in CabinTable and isallocated in Employee table
-            cabin.EmployeeId = cabinAllocationDTO.EmployeeId;
-
-            if (cabinAllocationDTO.EmployeeId.HasValue)
+            if (employeeId.HasValue)
             {
-                var employee = _employeeRepository.GetById(cabinAllocationDTO.EmployeeId.Value);
+                var employee = _employeeRepository.GetById(employeeId.Value);
                 if (employee != null)
                 {
                     employee.IsAllocated = true;
                     _employeeRepository.Update(employee);
                 }
+                else
+                {
+                    throw new Exception("Employee doen't Exist");
+                }
             }
-
-            _cabinTableRepository.Update(cabin);
-            _cabinTableRepository.Save();
-        }
-
-        public void DeallocateEmployeeFromCabin(CabinDeallocationDTO cabinDeallocationDTO)
-        {
-            // Check if FacilityId exists in Facility table
-            if (!_facilityRepository.GetAll().Any(f => f.FacilityId == cabinDeallocationDTO.FacilityId))
+            if (employeeId==null)
             {
-                throw new Exception("The Facility does not exist.");
-            }
-
-            // Check if the cabin exists
-            var cabin = _cabinTableRepository.GetAll()
-                .FirstOrDefault(c => c.FacilityId == cabinDeallocationDTO.FacilityId && c.CabinNumber == cabinDeallocationDTO.CabinNumber);
-
-            if (cabin == null)
-            {
-                throw new Exception("The Cabin does not exist.");
-            }
-
-            var employeeId = cabin.EmployeeId;
-            cabin.EmployeeId = null;
-
-            if (employeeId.HasValue)
-            {
-                var employee = _employeeRepository.GetById(employeeId.Value);
+                var employee = _employeeRepository.GetById(cabin.EmployeeId.Value);
                 if (employee != null)
                 {
                     employee.IsAllocated = false;
@@ -126,9 +102,13 @@ namespace MainAssessment.services
                 }
             }
 
+
+            // Set EmployeeId in CabinTable and isallocated in Employee table
+            cabin.EmployeeId = employeeId;
             _cabinTableRepository.Update(cabin);
             _cabinTableRepository.Save();
         }
+
 
         public void RemoveCabin(int cabinId)
         {

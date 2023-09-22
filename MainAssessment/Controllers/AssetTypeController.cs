@@ -9,25 +9,25 @@ namespace MainAssessment.Controllers
     [ApiController]
     public class AssetTypeController : Controller
     {
-        private readonly IAssetType _assetLookupService;
+        private readonly IAssetType _assetTypeService;
 
-        public AssetTypeController(IAssetType assetLookupService)
+        public AssetTypeController(IAssetType assetTypeService)
         {
-            _assetLookupService = assetLookupService;
+            _assetTypeService = assetTypeService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllAssetTypes()
         {
-            return Ok(_assetLookupService.GetAllAssetLookups());
+            return Ok(_assetTypeService.GetAllAssetTypes());
         }
 
         [HttpPost]
-        public IActionResult Create(string AssetName)
+        public IActionResult CreateAssetType(AssetTypeCreation newAssetType)
         {
             try
             {
-                _assetLookupService.AddAssetLookup(AssetName);
+                _assetTypeService.AddAssetType(newAssetType);
                 return Ok();
             }
             catch (Exception ex)
@@ -36,27 +36,14 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPatch("Update")]
-        public IActionResult Update(int id, string assetname)
-        {
-            try
-            {
-                _assetLookupService.UpdateAssetLookup(id, assetname);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAssetType(int id)
         {
             try
             {
-                _assetLookupService.RemoveAssetLookup(id);
+                _assetTypeService.RemoveAssetType(id);
                 return Ok();
             }
             catch (Exception ex)

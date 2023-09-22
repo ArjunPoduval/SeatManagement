@@ -3,19 +3,29 @@ using MainAssessment.Tables;
 
 namespace MainAssessment.services
 {
-    public class AllocatedService : IAllocatedReportCall
+    public class AllocatedService : IReportCall
     {
 
-        private readonly IRepository<AllocatedSeat> repository;
+        private readonly IRepository<AllocatedSeat> allocatedSeats;
+        private readonly IRepository<UnAllocatedSeat> unallocatedSeats;
 
-        public AllocatedService(IRepository<AllocatedSeat> repository)
+        public AllocatedService(IRepository<AllocatedSeat> allocatedSeats, IRepository<UnAllocatedSeat> unallocatedSeats)
         {
-            this.repository = repository;
+            this.allocatedSeats = allocatedSeats;
+            this.unallocatedSeats = unallocatedSeats;
         }
-        public IEnumerable<AllocatedSeat> GetAll()
+        public IEnumerable<AllocatedSeat> GetAllAllocatedSeats()
         {
 
-            return repository.GetAll();
+            return allocatedSeats.GetAll();
         }
+
+        public IEnumerable<UnAllocatedSeat> GetAllUnallocatedSeats()
+        {
+
+            return unallocatedSeats.GetAll();
+        }
+
     }
+
 }
