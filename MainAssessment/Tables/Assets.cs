@@ -16,7 +16,7 @@ namespace MainAssessment.Tables
         
         [ForeignKey("Asset")]
         public int AssetId { get; set; }
-        public virtual AssetLookup Asset { get; set; }
+        public virtual AssetType Asset { get; set; }
 
         [ForeignKey("MeetingRoom")]
         //[DefaultValue(null)]

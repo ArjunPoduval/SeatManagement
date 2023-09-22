@@ -5,14 +5,14 @@ using MainAssessment.Tables;
 
 namespace MainAssessment.services
 {
-    public class SeatTableService : ISeat
+    public class SeatService : ISeat
     {
-        private readonly IRepository<SeatTable> _seatTableRepository;
+        private readonly IRepository<Seat> _seatTableRepository;
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Facility> _facilityRepository;
 
-        public SeatTableService(
-            IRepository<SeatTable> seatTableRepository,
+        public SeatService(
+            IRepository<Seat> seatTableRepository,
             IRepository<Employee> employeeRepository,
             IRepository<Facility> facilityRepository)
         {
@@ -21,7 +21,7 @@ namespace MainAssessment.services
             _facilityRepository = facilityRepository;
         }
 
-        public IEnumerable<SeatTable> GetAllSeats()
+        public IEnumerable<Seat> GetAllSeats()
         {
             return _seatTableRepository.GetAll();
         }
@@ -40,7 +40,7 @@ namespace MainAssessment.services
                 throw new Exception("This Facility already has that seat number.");
             }
         //adding seat
-            var item = new SeatTable()
+            var item = new Seat()
             {
                 FacilityId = seatTable.FacilityId,
                 SeatNumber = seatTable.SeatNumber

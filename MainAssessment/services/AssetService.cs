@@ -12,12 +12,12 @@ namespace MainAssessment.services
         private readonly IRepository<Assets> _assetsRepository;
         private readonly IRepository<Facility> _facilityRepository;
         private readonly IRepository<MeetingRoomTable> _meetingRoomRepository;
-        private readonly IRepository<AssetLookup> _assetlookupRepository;
+        private readonly IRepository<AssetType> _assetlookupRepository;
 
         public AssetsService(IRepository<Assets> assetsRepository,
                              IRepository<Facility> facilityRepository,
                              IRepository<MeetingRoomTable> meetingRoomRepository,
-                             IRepository<AssetLookup> assetlookupRepository)
+                             IRepository<AssetType> assetlookupRepository)
         {
             _assetsRepository = assetsRepository;
             _facilityRepository = facilityRepository;

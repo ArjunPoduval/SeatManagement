@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MainAssessment.Tables
 {
-    public class AssetLookup
+    public class AssetType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

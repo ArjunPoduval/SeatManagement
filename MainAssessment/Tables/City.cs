@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MainAssessment.Tables
 {
-    public class CityLookup
+    public class City
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

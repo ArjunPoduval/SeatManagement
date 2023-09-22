@@ -7,15 +7,15 @@ namespace MainAssessment.services
 {
     public class CityService : ICity
     {
-        private readonly IRepository<CityLookup> repository;
+        private readonly IRepository<City> repository;
 
-        public CityService(IRepository<CityLookup> repository)
+        public CityService(IRepository<City> repository)
         {
             this.repository = repository;
         }
 
         
-        public IEnumerable<CityLookup> GetAllCity()
+        public IEnumerable<City> GetAllCity()
         {
 
             return repository.GetAll();
@@ -30,7 +30,7 @@ namespace MainAssessment.services
                 throw new Exception("Similar city Name or Abbreviation already exist.");
             }
         //creation
-            var item = new CityLookup()
+            var item = new City()
             {
                 CityAbbreviation = city.Abbreviation,
                 CityName = city.City

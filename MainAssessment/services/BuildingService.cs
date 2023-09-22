@@ -7,8 +7,8 @@ namespace MainAssessment.services
     public class BuildingService : IBuilding
     {
         private readonly IRepository<Building> buildingRepository;
-        private readonly IRepository<CityLookup> cityRepository;
-        public BuildingService(IRepository<Building> buildingRepository, IRepository<CityLookup> cityRepository)
+        private readonly IRepository<City> cityRepository;
+        public BuildingService(IRepository<Building> buildingRepository, IRepository<City> cityRepository)
         {
             this.buildingRepository = buildingRepository;
             this.cityRepository = cityRepository;

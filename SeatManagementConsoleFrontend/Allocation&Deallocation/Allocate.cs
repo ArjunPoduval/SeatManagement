@@ -59,7 +59,7 @@ namespace SeatManagementConsoleFrontend
         {
             ISeatManagerAPI<CabinAllocationDTO> cabinallocation = new SeatManagementAPICall<CabinAllocationDTO>("CabinTable");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
-            ISeatManagerAPI<CabinTable> cabindata = new SeatManagementAPICall<CabinTable>("CabinTable");
+            ISeatManagerAPI<Cabin> cabindata = new SeatManagementAPICall<Cabin>("CabinTable");
 
             var availableEmployeelist = employeedata.GetData().Where(e => e.IsAllocated == false).ToList();
             Console.WriteLine("\n<----- * Unallocated Employee's * ----->");

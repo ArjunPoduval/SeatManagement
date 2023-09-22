@@ -8,14 +8,14 @@ using System.Linq;
 
 namespace MainAssessment.services
 {
-    public class CabinTableService : ICabin
+    public class CabinService : ICabin
     {
-        private readonly IRepository<CabinTable> _cabinTableRepository;
+        private readonly IRepository<Cabin> _cabinTableRepository;
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Facility> _facilityRepository;
 
-        public CabinTableService(
-            IRepository<CabinTable> cabinTableRepository,
+        public CabinService(
+            IRepository<Cabin> cabinTableRepository,
             IRepository<Employee> employeeRepository,
             IRepository<Facility> facilityRepository)
         {
@@ -24,7 +24,7 @@ namespace MainAssessment.services
             _facilityRepository = facilityRepository;
         }
 
-        public IEnumerable<CabinTable> GetAllCabins()
+        public IEnumerable<Cabin> GetAllCabins()
         {
             return _cabinTableRepository.GetAll();
         }
@@ -42,7 +42,7 @@ namespace MainAssessment.services
                 throw new Exception("This Facility already has that cabin number.");
             }
 
-            var item = new CabinTable()
+            var item = new Cabin()
             {
                 FacilityId = cabinTableDTO.FacilityId,
                 CabinNumber = cabinTableDTO.CabinNumber

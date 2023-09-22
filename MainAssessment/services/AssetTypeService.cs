@@ -8,16 +8,16 @@ using System.Linq;
 
 namespace MainAssessment.services
 {
-    public class AssetLookupService : IAssetType
+    public class AssetTypeService : IAssetType
     {
-        private readonly IRepository<AssetLookup> _assetLookupRepository;
+        private readonly IRepository<AssetType> _assetLookupRepository;
 
-        public AssetLookupService(IRepository<AssetLookup> assetLookupRepository)
+        public AssetTypeService(IRepository<AssetType> assetLookupRepository)
         {
             _assetLookupRepository = assetLookupRepository;
         }
 
-        public IEnumerable<AssetLookup> GetAllAssetTypes()
+        public IEnumerable<AssetType> GetAllAssetTypes()
         {
             return _assetLookupRepository.GetAll();
         }
@@ -31,7 +31,7 @@ namespace MainAssessment.services
                 throw new Exception("Similar Asset already exist.");
             }
         //Creation
-            var item = new AssetLookup()
+            var item = new AssetType()
             {
                 AssetName = newAssetType.assetName
             };

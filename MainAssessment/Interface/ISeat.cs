@@ -7,7 +7,7 @@ namespace MainAssessment.Interface
 {
     public interface ISeat
     {
-        IEnumerable<SeatTable> GetAllSeats();
+        IEnumerable<Seat> GetAllSeats();
         void AddSeat(SeatTableDTO seatTable);
         void UpdateSeatDetail(int seatId,int? employeeId);
         void RemoveSeat(int seatId);

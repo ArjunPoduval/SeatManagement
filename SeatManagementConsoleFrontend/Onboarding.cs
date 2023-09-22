@@ -20,7 +20,7 @@ namespace SeatManagementConsoleFrontend
         {
             
             ISeatManagerAPI<FacilityDTO> manager = new SeatManagementAPICall<FacilityDTO>("Facilities");
-            ISeatManagerAPI<CityLookup> citymanager = new SeatManagementAPICall<CityLookup>("City");
+            ISeatManagerAPI<City> citymanager = new SeatManagementAPICall<City>("City");
             ISeatManagerAPI<Building> buildingmanager = new SeatManagementAPICall<Building>("Building");
 
             var citylist = citymanager.GetData();
@@ -53,7 +53,7 @@ namespace SeatManagementConsoleFrontend
         public void OnboardSeats()
         {
             ISeatManagerAPI<SeatTableDTO> addseat = new SeatManagementAPICall<SeatTableDTO>("SeatTable");
-            ISeatManagerAPI<SeatTable> seats = new SeatManagementAPICall<SeatTable>("SeatTable");
+            ISeatManagerAPI<Seat> seats = new SeatManagementAPICall<Seat>("SeatTable");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
             var Facility = facilitymanager.GetData();
@@ -201,7 +201,7 @@ namespace SeatManagementConsoleFrontend
         public void OnboardAssets()
         {
             ISeatManagerAPI<AssetCreationDTO> addasset = new SeatManagementAPICall<AssetCreationDTO>("Assets");
-            ISeatManagerAPI<AssetLookup> assetlookupmanager = new SeatManagementAPICall<AssetLookup>("AssetLookup");
+            ISeatManagerAPI<AssetType> assetlookupmanager = new SeatManagementAPICall<AssetType>("AssetLookup");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
             var assets = assetlookupmanager.GetData();

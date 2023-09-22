@@ -14,6 +14,6 @@ namespace MainAssessment.Tables
 
         [ForeignKey("CityLookup")]
         public int CityId { get; set; }
-        public virtual CityLookup CityLookup { get; set; }
+        public virtual City CityLookup { get; set; }
     }
 }

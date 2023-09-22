@@ -53,7 +53,7 @@ namespace SeatManagementConsoleFrontend
         public void DeAllocateEmployeeinCabin()
         {
             ISeatManagerAPI<CabinDeallocationDTO> cabindeallocation = new SeatManagementAPICall<CabinDeallocationDTO>("CabinTable");
-            ISeatManagerAPI<CabinTable> cabindata = new SeatManagementAPICall<CabinTable>("CabinTable");
+            ISeatManagerAPI<Cabin> cabindata = new SeatManagementAPICall<Cabin>("CabinTable");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
 
             var cabinmembers = cabindata.GetData().Where(c=>c.EmployeeId!=null).ToList();   

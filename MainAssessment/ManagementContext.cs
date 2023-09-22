@@ -6,14 +6,14 @@ namespace MainAssessment
     public class ManagementContext : DbContext
     {
         public ManagementContext(DbContextOptions options) : base(options) { }
-        public DbSet<CityLookup> CityLookups { get; set; }
+        public DbSet<City> CityLookups { get; set; }
         public DbSet<Building> Buildings { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Department> DepartmentLookups { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<SeatTable> SeatTable { get; set; }
-        public DbSet<AssetLookup> AssetLookups { get; set; }
-        public DbSet<CabinTable> CabinTable { get; set; }
+        public DbSet<Seat> SeatTable { get; set; }
+        public DbSet<AssetType> AssetLookups { get; set; }
+        public DbSet<Cabin> CabinTable { get; set; }
         public DbSet<MeetingRoomTable> MeetingRoomTable { get; set; }
         public DbSet<Assets> Assets { get; set; }
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MainAssessment.Tables
 {
-    public class SeatTable
+    public class Seat
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
