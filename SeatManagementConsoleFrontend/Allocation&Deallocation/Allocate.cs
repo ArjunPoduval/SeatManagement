@@ -16,7 +16,7 @@ namespace SeatManagementConsoleFrontend
     {
         public void AllocateEmployeeToSeat()
         {
-            ISeatManagerAPI<SeatAllocationDTO> seatallocation = new SeatManagementAPICall<SeatAllocationDTO>("SeatTable");
+            ISeatManagerAPI<Seat> seatallocation = new SeatManagementAPICall<Seat>("Seat");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
             Report reporting = new Report();
 
@@ -38,28 +38,27 @@ namespace SeatManagementConsoleFrontend
 
             reporting.unAllocatedreport();
 
+            
 
-            Console.WriteLine("Enter FacilityID: ");
-            int facilityid = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter SeatNumber: ");
-            int seatno = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter SeatId: ");
+            int seatId = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter EmployeeId: ");
-            int employeeid = Convert.ToInt32(Console.ReadLine());
+            int? employeeid = Convert.ToInt32(Console.ReadLine());
 
-            var seatallocate = new SeatAllocationDTO
+            var allocatedData = new Seat
             {
-                FacilityId = facilityid,
-                SeatNumber = seatno,
+                SeatId = seatId,
                 EmployeeId = employeeid
             };
-            Console.WriteLine(seatallocation.Allocate(seatallocate));
+          
+            Console.WriteLine(seatallocation.UpdateDetail(allocatedData));
         }
 
         public void AllocateEmployeeToCabin()
         {
-            ISeatManagerAPI<CabinAllocationDTO> cabinallocation = new SeatManagementAPICall<CabinAllocationDTO>("CabinTable");
+            ISeatManagerAPI<Cabin> cabinallocation = new SeatManagementAPICall<Cabin>("Cabin");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
-            ISeatManagerAPI<Cabin> cabindata = new SeatManagementAPICall<Cabin>("CabinTable");
+            ISeatManagerAPI<Cabin> cabindata = new SeatManagementAPICall<Cabin>("Cabin");
 
             var availableEmployeelist = employeedata.GetData().Where(e => e.IsAllocated == false).ToList();
             Console.WriteLine("\n<----- * Unallocated Employee's * ----->");
@@ -84,26 +83,23 @@ namespace SeatManagementConsoleFrontend
             }
 
 
-            Console.WriteLine("Enter FacilityID: ");
-            int facilityid = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter cabin number: ");
-            int cabinno = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter cabin ID: ");
+            int cabinId = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter EmployeeId: ");
-            int employeeid = Convert.ToInt32(Console.ReadLine());
+            int? employeeid = Convert.ToInt32(Console.ReadLine());
 
-            var cabinallocate = new CabinAllocationDTO
+            var cabinallocate = new Cabin
             {
-                FacilityId = facilityid,
-                CabinNumber = cabinno,
+                CabinId = cabinId,
                 EmployeeId = employeeid
             };
-            Console.WriteLine(cabinallocation.Allocate(cabinallocate));
+            Console.WriteLine(cabinallocation.UpdateDetail(cabinallocate));
         }
 
         public void AllocateAssettoMeetingroom()
         {
 
-            ISeatManagerAPI<AssetsDTO> updateasset = new SeatManagementAPICall<AssetsDTO>("Assets");
+            ISeatManagerAPI<Assets> updateasset = new SeatManagementAPICall<Assets>("Assets");
             ISeatManagerAPI<MeetingRoomTable> meetingmanager = new SeatManagementAPICall<MeetingRoomTable>("Meetingroom");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
@@ -139,22 +135,19 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("<----- * ---->");
 
 
-            Console.WriteLine("Enter Facility Id: ");
-            int facilityId = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter AssetId: ");
-            int Assetid = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter AssetIndex Id: ");
+            int indexId = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter MeetingroomId: ");
-            int meetingid = Convert.ToInt32(Console.ReadLine());
+            int? meetingid = Convert.ToInt32(Console.ReadLine());
 
 
-            var asset = new AssetsDTO
+            var asset = new Assets
             {
-                FacilityId = facilityId,
-                AssetId = Assetid,
+                IndexId = indexId,
                 MeetingRoomId = meetingid
 
             };
-            Console.WriteLine(updateasset.Allocate(asset));
+            Console.WriteLine(updateasset.UpdateDetail(asset));
 
         }
     }

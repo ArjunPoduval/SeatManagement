@@ -14,7 +14,7 @@ namespace SeatManagementConsoleFrontend
     {
         public void DeAllocateEmployeeinSeat()
         {
-            ISeatManagerAPI<SeatDeallocationDTO> seatdeallocation = new SeatManagementAPICall<SeatDeallocationDTO>("SeatTable");
+            ISeatManagerAPI<Seat> seatdeallocation = new SeatManagementAPICall<Seat>("Seat");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
             Report reporting = new Report();
 
@@ -36,24 +36,21 @@ namespace SeatManagementConsoleFrontend
 
             reporting.Allocatedreport();
 
+            Console.WriteLine("Enter SeatId: ");
+            int seatId = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Enter FacilityID: ");
-            int facilityid = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter SeatNumber: ");
-            int seatno = Convert.ToInt32(Console.ReadLine());
-
-            var seatdeallocate = new SeatDeallocationDTO
+            var deallocatedData = new Seat
             {
-                FacilityId = facilityid,
-                SeatNumber = seatno
+                SeatId = seatId,
             };
-            Console.WriteLine(seatdeallocation.Deallocate(seatdeallocate));
+
+            Console.WriteLine(seatdeallocation.UpdateDetail(deallocatedData));
         }
 
         public void DeAllocateEmployeeinCabin()
         {
-            ISeatManagerAPI<CabinDeallocationDTO> cabindeallocation = new SeatManagementAPICall<CabinDeallocationDTO>("CabinTable");
-            ISeatManagerAPI<Cabin> cabindata = new SeatManagementAPICall<Cabin>("CabinTable");
+            ISeatManagerAPI<Cabin> cabindeallocation = new SeatManagementAPICall<Cabin>("Cabin");
+            ISeatManagerAPI<Cabin> cabindata = new SeatManagementAPICall<Cabin>("Cabin");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
 
             var cabinmembers = cabindata.GetData().Where(c=>c.EmployeeId!=null).ToList();   
@@ -90,32 +87,29 @@ namespace SeatManagementConsoleFrontend
 
 
 
-            Console.WriteLine("Enter FacilityID: ");
-            int facilityid = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter cabin number: ");
-            int cabinno = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter cabin ID: ");
+            int cabinId = Convert.ToInt32(Console.ReadLine());
 
-            var cabindeallocate = new CabinDeallocationDTO
+            var cabinallocate = new Cabin
             {
-                FacilityId = facilityid,
-                CabinNumber = cabinno
+                CabinId = cabinId
             };
-            Console.WriteLine(cabindeallocation.Deallocate(cabindeallocate));
+            Console.WriteLine(cabindeallocation.UpdateDetail(cabinallocate));
         }
 
         public void DeAllocateAssetFromMeetingroom()
         {
             ISeatManagerAPI<Assets> AssetData = new SeatManagementAPICall<Assets>("Assets");
-            ISeatManagerAPI<AssetDeallocationDTO> AssetDeallocate = new SeatManagementAPICall<AssetDeallocationDTO>("Assets");
+            ISeatManagerAPI<Assets> AssetDeallocate = new SeatManagementAPICall<Assets>("Assets");
 
             var allAssets = AssetData.GetData().Where(a=> a.MeetingRoomId!=null).ToList();
 
             Console.WriteLine("\n<----- Allocated Assets ----->");
             if(allAssets!=null)
             {
-                foreach (var asset in allAssets)
+                foreach (var assets in allAssets)
                 {
-                    Console.WriteLine($"AssetIndex: {asset.IndexId} FacilityId: {asset.FacilityId} AssetId: {asset.AssetId} MeetingRoomId: {asset.MeetingRoomId}");
+                    Console.WriteLine($"AssetIndex: {assets.IndexId} FacilityId: {assets.FacilityId} AssetId: {assets.AssetId} MeetingRoomId: {assets.MeetingRoomId}");
                 }
                 Console.WriteLine("<----- * ----->\n");
             }
@@ -124,16 +118,17 @@ namespace SeatManagementConsoleFrontend
                 Console.WriteLine("No Assets are available to DeAllocate");
             }
 
-            Console.WriteLine("Enter IndexId to Deallocate: ");
-            int indexDeallocateId = Convert.ToInt32(Console.ReadLine());
 
-            var assettodeallocate = new AssetDeallocationDTO
+            Console.WriteLine("Enter AssetIndex Id: ");
+            int indexId = Convert.ToInt32(Console.ReadLine());
+
+
+            var asset = new Assets
             {
-                IndexId = indexDeallocateId,
+                IndexId = indexId,
+
             };
-
-            Console.WriteLine(AssetDeallocate.Deallocate(assettodeallocate));
-
+            Console.WriteLine(AssetDeallocate.UpdateDetail(asset));
         }
 
     }

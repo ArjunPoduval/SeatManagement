@@ -53,13 +53,13 @@ namespace SeatManagementConsoleFrontend
                 return ex.Message;
             }
         }
-        public string Allocate(T data) {
+        public string UpdateDetail(T data) {
             try
             {
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                var response = client.PutAsync($"{apiEndpoint}/Allocate", content).Result;
+                var response = client.PatchAsync($"{apiEndpoint}", content).Result;
                 if (response.IsSuccessStatusCode)
                 {
 
@@ -75,28 +75,6 @@ namespace SeatManagementConsoleFrontend
             }
           
             
-        }
-        public string Deallocate(T data)
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(data);
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-                var response = client.PutAsync($"{apiEndpoint}/Deallocate", content).Result;
-                if (response.IsSuccessStatusCode)
-                {
-
-                    return "UnAllocated.";
-
-                }
-                return response.Content.ReadAsStringAsync().Result;
-
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
         }
         public void DeleteData(T data) { }
     }

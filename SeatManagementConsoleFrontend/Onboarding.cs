@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SeatManagementConsoleFrontend.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -52,8 +53,8 @@ namespace SeatManagementConsoleFrontend
         }
         public void OnboardSeats()
         {
-            ISeatManagerAPI<SeatTableDTO> addseat = new SeatManagementAPICall<SeatTableDTO>("SeatTable");
-            ISeatManagerAPI<Seat> seats = new SeatManagementAPICall<Seat>("SeatTable");
+            ISeatManagerAPI<SeatTableDTO> addseat = new SeatManagementAPICall<SeatTableDTO>("Seat");
+            ISeatManagerAPI<Seat> seats = new SeatManagementAPICall<Seat>("Seat");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
             var Facility = facilitymanager.GetData();
@@ -70,7 +71,7 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter FacilityId: ");
             int facilityid = Convert.ToInt32(Console.ReadLine());
 
-            var seat = seats.GetData().Where(s=>s.FacilityId==facilityid);
+            var seat = seats.GetData().Where(s=>s.FacilityId == facilityid);
 
 
             Console.WriteLine("<----- Already Onboarded seats in the facility ---->");
@@ -138,7 +139,8 @@ namespace SeatManagementConsoleFrontend
 
         public void OnboardCabin()
         {
-            ISeatManagerAPI<CabinTableDTO> addcabin = new SeatManagementAPICall<CabinTableDTO>("CabinTable");
+            ISeatManagerAPI<Cabin> cabins = new SeatManagementAPICall<Cabin>("Cabin");
+            ISeatManagerAPI<CabinTableDTO> addcabin = new SeatManagementAPICall<CabinTableDTO>("Cabin");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
             var Facility = facilitymanager.GetData();
@@ -155,17 +157,23 @@ namespace SeatManagementConsoleFrontend
 
             Console.WriteLine("Enter FacilityId: ");
             int facilityid = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter Cabin Number: ");
-            int cabinno = Convert.ToInt32(Console.ReadLine());
 
+            var cabinInFacility = cabins.GetData().Where(x => x.FacilityId == facilityid);
 
-            var cabin = new CabinTableDTO
+            Console.WriteLine("Enter Number of Cabins to onboard: ");
+            int numberOfCabins = Convert.ToInt32(Console.ReadLine());
+
+            int cabinno = cabinInFacility.Count() + 1;
+            for (int i = 0; i < numberOfCabins; i++)
             {
-                FacilityId = facilityid,
-                CabinNumber = cabinno
-            };
-
-            Console.WriteLine(addcabin.CreateData(cabin));
+                var cabin = new CabinTableDTO
+                {
+                    FacilityId = facilityid,
+                    CabinNumber = cabinno
+                };
+                cabinno++;
+                Console.WriteLine(addcabin.CreateData(cabin));
+            }
         }
 
         public void OnboardEmployee() 
@@ -201,7 +209,7 @@ namespace SeatManagementConsoleFrontend
         public void OnboardAssets()
         {
             ISeatManagerAPI<AssetCreationDTO> addasset = new SeatManagementAPICall<AssetCreationDTO>("Assets");
-            ISeatManagerAPI<AssetType> assetlookupmanager = new SeatManagementAPICall<AssetType>("AssetLookup");
+            ISeatManagerAPI<AssetType> assetlookupmanager = new SeatManagementAPICall<AssetType>("AssetType");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
             var assets = assetlookupmanager.GetData();
