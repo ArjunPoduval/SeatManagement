@@ -19,14 +19,7 @@ namespace SeatManagementConsoleFrontend.Reports
             return report;
 
         }
-        public List<UnAllocatedSeatsReport> unAllocatedreport()
-        {
-            ISeatManagerAPI<UnAllocatedSeatsReport> Allocatedreport = new SeatManagementAPICall<UnAllocatedSeatsReport>("UnAllocated");
-           
-            var report = Allocatedreport.GetData();
-
-            return report;
-        }
+       
 
     }
 }

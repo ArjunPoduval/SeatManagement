@@ -9,7 +9,7 @@ namespace MainAssessment.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AssetLookups",
+                name: "assetType",
                 columns: table => new
                 {
                     AssetId = table.Column<int>(type: "int", nullable: false)
@@ -18,11 +18,11 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssetLookups", x => x.AssetId);
+                    table.PrimaryKey("PK_assetType", x => x.AssetId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CityLookups",
+                name: "city",
                 columns: table => new
                 {
                     CityId = table.Column<int>(type: "int", nullable: false)
@@ -32,11 +32,11 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CityLookups", x => x.CityId);
+                    table.PrimaryKey("PK_city", x => x.CityId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DepartmentLookups",
+                name: "department",
                 columns: table => new
                 {
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
@@ -45,11 +45,11 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentLookups", x => x.DepartmentId);
+                    table.PrimaryKey("PK_department", x => x.DepartmentId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Buildings",
+                name: "buildings",
                 columns: table => new
                 {
                     BuildingId = table.Column<int>(type: "int", nullable: false)
@@ -60,17 +60,17 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Buildings", x => x.BuildingId);
+                    table.PrimaryKey("PK_buildings", x => x.BuildingId);
                     table.ForeignKey(
-                        name: "FK_Buildings_CityLookups_CityId",
+                        name: "FK_buildings_city_CityId",
                         column: x => x.CityId,
-                        principalTable: "CityLookups",
+                        principalTable: "city",
                         principalColumn: "CityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
+                name: "employees",
                 columns: table => new
                 {
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
@@ -81,17 +81,17 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
+                    table.PrimaryKey("PK_employees", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_Employees_DepartmentLookups_DepartmentId",
+                        name: "FK_employees_department_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "DepartmentLookups",
+                        principalTable: "department",
                         principalColumn: "DepartmentId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Facilities",
+                name: "facilities",
                 columns: table => new
                 {
                     FacilityId = table.Column<int>(type: "int", nullable: false)
@@ -102,17 +102,17 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Facilities", x => x.FacilityId);
+                    table.PrimaryKey("PK_facilities", x => x.FacilityId);
                     table.ForeignKey(
-                        name: "FK_Facilities_Buildings_BuildingId",
+                        name: "FK_facilities_buildings_BuildingId",
                         column: x => x.BuildingId,
-                        principalTable: "Buildings",
+                        principalTable: "buildings",
                         principalColumn: "BuildingId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CabinTable",
+                name: "cabin",
                 columns: table => new
                 {
                     CabinId = table.Column<int>(type: "int", nullable: false)
@@ -123,22 +123,22 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CabinTable", x => x.CabinId);
+                    table.PrimaryKey("PK_cabin", x => x.CabinId);
                     table.ForeignKey(
-                        name: "FK_CabinTable_Employees_EmployeeId",
+                        name: "FK_cabin_employees_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "employees",
                         principalColumn: "EmployeeId");
                     table.ForeignKey(
-                        name: "FK_CabinTable_Facilities_FacilityId",
+                        name: "FK_cabin_facilities_FacilityId",
                         column: x => x.FacilityId,
-                        principalTable: "Facilities",
+                        principalTable: "facilities",
                         principalColumn: "FacilityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MeetingRoomTable",
+                name: "meetingRoom",
                 columns: table => new
                 {
                     MeetingRoomId = table.Column<int>(type: "int", nullable: false)
@@ -149,17 +149,17 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MeetingRoomTable", x => x.MeetingRoomId);
+                    table.PrimaryKey("PK_meetingRoom", x => x.MeetingRoomId);
                     table.ForeignKey(
-                        name: "FK_MeetingRoomTable_Facilities_FacilityId",
+                        name: "FK_meetingRoom_facilities_FacilityId",
                         column: x => x.FacilityId,
-                        principalTable: "Facilities",
+                        principalTable: "facilities",
                         principalColumn: "FacilityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SeatTable",
+                name: "seat",
                 columns: table => new
                 {
                     SeatId = table.Column<int>(type: "int", nullable: false)
@@ -170,22 +170,22 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SeatTable", x => x.SeatId);
+                    table.PrimaryKey("PK_seat", x => x.SeatId);
                     table.ForeignKey(
-                        name: "FK_SeatTable_Employees_EmployeeId",
+                        name: "FK_seat_employees_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "employees",
                         principalColumn: "EmployeeId");
                     table.ForeignKey(
-                        name: "FK_SeatTable_Facilities_FacilityId",
+                        name: "FK_seat_facilities_FacilityId",
                         column: x => x.FacilityId,
-                        principalTable: "Facilities",
+                        principalTable: "facilities",
                         principalColumn: "FacilityId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Assets",
+                name: "assets",
                 columns: table => new
                 {
                     IndexId = table.Column<int>(type: "int", nullable: false)
@@ -196,113 +196,113 @@ namespace MainAssessment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Assets", x => x.IndexId);
+                    table.PrimaryKey("PK_assets", x => x.IndexId);
                     table.ForeignKey(
-                        name: "FK_Assets_AssetLookups_AssetId",
+                        name: "FK_assets_assetType_AssetId",
                         column: x => x.AssetId,
-                        principalTable: "AssetLookups",
+                        principalTable: "assetType",
                         principalColumn: "AssetId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Assets_Facilities_FacilityId",
+                        name: "FK_assets_facilities_FacilityId",
                         column: x => x.FacilityId,
-                        principalTable: "Facilities",
+                        principalTable: "facilities",
                         principalColumn: "FacilityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Assets_MeetingRoomTable_MeetingRoomId",
+                        name: "FK_assets_meetingRoom_MeetingRoomId",
                         column: x => x.MeetingRoomId,
-                        principalTable: "MeetingRoomTable",
+                        principalTable: "meetingRoom",
                         principalColumn: "MeetingRoomId");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assets_AssetId",
-                table: "Assets",
+                name: "IX_assets_AssetId",
+                table: "assets",
                 column: "AssetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assets_FacilityId",
-                table: "Assets",
+                name: "IX_assets_FacilityId",
+                table: "assets",
                 column: "FacilityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assets_MeetingRoomId",
-                table: "Assets",
+                name: "IX_assets_MeetingRoomId",
+                table: "assets",
                 column: "MeetingRoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Buildings_CityId",
-                table: "Buildings",
+                name: "IX_buildings_CityId",
+                table: "buildings",
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CabinTable_EmployeeId",
-                table: "CabinTable",
+                name: "IX_cabin_EmployeeId",
+                table: "cabin",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CabinTable_FacilityId",
-                table: "CabinTable",
+                name: "IX_cabin_FacilityId",
+                table: "cabin",
                 column: "FacilityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_DepartmentId",
-                table: "Employees",
+                name: "IX_employees_DepartmentId",
+                table: "employees",
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Facilities_BuildingId",
-                table: "Facilities",
+                name: "IX_facilities_BuildingId",
+                table: "facilities",
                 column: "BuildingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MeetingRoomTable_FacilityId",
-                table: "MeetingRoomTable",
+                name: "IX_meetingRoom_FacilityId",
+                table: "meetingRoom",
                 column: "FacilityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SeatTable_EmployeeId",
-                table: "SeatTable",
+                name: "IX_seat_EmployeeId",
+                table: "seat",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SeatTable_FacilityId",
-                table: "SeatTable",
+                name: "IX_seat_FacilityId",
+                table: "seat",
                 column: "FacilityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Assets");
+                name: "assets");
 
             migrationBuilder.DropTable(
-                name: "CabinTable");
+                name: "cabin");
 
             migrationBuilder.DropTable(
-                name: "SeatTable");
+                name: "seat");
 
             migrationBuilder.DropTable(
-                name: "AssetLookups");
+                name: "assetType");
 
             migrationBuilder.DropTable(
-                name: "MeetingRoomTable");
+                name: "meetingRoom");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "employees");
 
             migrationBuilder.DropTable(
-                name: "Facilities");
+                name: "facilities");
 
             migrationBuilder.DropTable(
-                name: "DepartmentLookups");
+                name: "department");
 
             migrationBuilder.DropTable(
-                name: "Buildings");
+                name: "buildings");
 
             migrationBuilder.DropTable(
-                name: "CityLookups");
+                name: "city");
         }
     }
 }

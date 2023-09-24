@@ -22,21 +22,39 @@ namespace MainAssessment.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("MainAssessment.Tables.AssetLookup", b =>
+            modelBuilder.Entity("MainAssessment.Tables.AllocatedSeatsReport", b =>
                 {
-                    b.Property<int>("AssetId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("SeatId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssetId"), 1L, 1);
-
-                    b.Property<string>("AssetName")
+                    b.Property<string>("BuildingAbbreviation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AssetId");
+                    b.Property<string>("CityAbbreviation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("AssetLookups");
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FacilityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Floor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("SeatId");
+
+                    b.ToView("AllocatedSeat");
                 });
 
             modelBuilder.Entity("MainAssessment.Tables.Assets", b =>
@@ -64,7 +82,24 @@ namespace MainAssessment.Migrations
 
                     b.HasIndex("MeetingRoomId");
 
-                    b.ToTable("Assets");
+                    b.ToTable("assets");
+                });
+
+            modelBuilder.Entity("MainAssessment.Tables.AssetType", b =>
+                {
+                    b.Property<int>("AssetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssetId"), 1L, 1);
+
+                    b.Property<string>("AssetName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AssetId");
+
+                    b.ToTable("assetType");
                 });
 
             modelBuilder.Entity("MainAssessment.Tables.Building", b =>
@@ -90,10 +125,10 @@ namespace MainAssessment.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Buildings");
+                    b.ToTable("buildings");
                 });
 
-            modelBuilder.Entity("MainAssessment.Tables.CabinTable", b =>
+            modelBuilder.Entity("MainAssessment.Tables.Cabin", b =>
                 {
                     b.Property<int>("CabinId")
                         .ValueGeneratedOnAdd()
@@ -116,10 +151,10 @@ namespace MainAssessment.Migrations
 
                     b.HasIndex("FacilityId");
 
-                    b.ToTable("CabinTable");
+                    b.ToTable("cabin");
                 });
 
-            modelBuilder.Entity("MainAssessment.Tables.CityLookup", b =>
+            modelBuilder.Entity("MainAssessment.Tables.City", b =>
                 {
                     b.Property<int>("CityId")
                         .ValueGeneratedOnAdd()
@@ -137,7 +172,7 @@ namespace MainAssessment.Migrations
 
                     b.HasKey("CityId");
 
-                    b.ToTable("CityLookups");
+                    b.ToTable("city");
                 });
 
             modelBuilder.Entity("MainAssessment.Tables.Department", b =>
@@ -154,7 +189,7 @@ namespace MainAssessment.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("DepartmentLookups");
+                    b.ToTable("department");
                 });
 
             modelBuilder.Entity("MainAssessment.Tables.Employee", b =>
@@ -179,7 +214,7 @@ namespace MainAssessment.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("employees");
                 });
 
             modelBuilder.Entity("MainAssessment.Tables.Facility", b =>
@@ -204,10 +239,10 @@ namespace MainAssessment.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.ToTable("Facilities");
+                    b.ToTable("facilities");
                 });
 
-            modelBuilder.Entity("MainAssessment.Tables.MeetingRoomTable", b =>
+            modelBuilder.Entity("MainAssessment.Tables.MeetingRoom", b =>
                 {
                     b.Property<int>("MeetingRoomId")
                         .ValueGeneratedOnAdd()
@@ -228,10 +263,10 @@ namespace MainAssessment.Migrations
 
                     b.HasIndex("FacilityId");
 
-                    b.ToTable("MeetingRoomTable");
+                    b.ToTable("meetingRoom");
                 });
 
-            modelBuilder.Entity("MainAssessment.Tables.SeatTable", b =>
+            modelBuilder.Entity("MainAssessment.Tables.Seat", b =>
                 {
                     b.Property<int>("SeatId")
                         .ValueGeneratedOnAdd()
@@ -254,12 +289,40 @@ namespace MainAssessment.Migrations
 
                     b.HasIndex("FacilityId");
 
-                    b.ToTable("SeatTable");
+                    b.ToTable("seat");
+                });
+
+            modelBuilder.Entity("MainAssessment.Tables.UnAllocatedSeatsReport", b =>
+                {
+                    b.Property<int>("SeatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BuildingAbbreviation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CityAbbreviation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FacilityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Floor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("SeatId");
+
+                    b.ToView("UnAllocatedSeat");
                 });
 
             modelBuilder.Entity("MainAssessment.Tables.Assets", b =>
                 {
-                    b.HasOne("MainAssessment.Tables.AssetLookup", "Asset")
+                    b.HasOne("MainAssessment.Tables.AssetType", "Asset")
                         .WithMany()
                         .HasForeignKey("AssetId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -271,7 +334,7 @@ namespace MainAssessment.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MainAssessment.Tables.MeetingRoomTable", "MeetingRoom")
+                    b.HasOne("MainAssessment.Tables.MeetingRoom", "MeetingRoom")
                         .WithMany()
                         .HasForeignKey("MeetingRoomId");
 
@@ -284,7 +347,7 @@ namespace MainAssessment.Migrations
 
             modelBuilder.Entity("MainAssessment.Tables.Building", b =>
                 {
-                    b.HasOne("MainAssessment.Tables.CityLookup", "CityLookup")
+                    b.HasOne("MainAssessment.Tables.City", "CityLookup")
                         .WithMany()
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -293,7 +356,7 @@ namespace MainAssessment.Migrations
                     b.Navigation("CityLookup");
                 });
 
-            modelBuilder.Entity("MainAssessment.Tables.CabinTable", b =>
+            modelBuilder.Entity("MainAssessment.Tables.Cabin", b =>
                 {
                     b.HasOne("MainAssessment.Tables.Employee", "Employee")
                         .WithMany()
@@ -332,7 +395,7 @@ namespace MainAssessment.Migrations
                     b.Navigation("building");
                 });
 
-            modelBuilder.Entity("MainAssessment.Tables.MeetingRoomTable", b =>
+            modelBuilder.Entity("MainAssessment.Tables.MeetingRoom", b =>
                 {
                     b.HasOne("MainAssessment.Tables.Facility", "Facility")
                         .WithMany()
@@ -343,7 +406,7 @@ namespace MainAssessment.Migrations
                     b.Navigation("Facility");
                 });
 
-            modelBuilder.Entity("MainAssessment.Tables.SeatTable", b =>
+            modelBuilder.Entity("MainAssessment.Tables.Seat", b =>
                 {
                     b.HasOne("MainAssessment.Tables.Employee", "Employee")
                         .WithMany()

@@ -25,7 +25,7 @@ namespace SeatManagementConsoleFrontend.Reports
                 Console.WriteLine("No Allocated Seats");
             }
         }
-        public void UnAllocatedReportConsoleOutput(List<UnAllocatedSeatsReport>? reports)
+        public void UnAllocatedReportConsoleOutput(List<AllocatedSeatsReport>? reports)
         {
             if (reports.ToList().Count != 0)
             {

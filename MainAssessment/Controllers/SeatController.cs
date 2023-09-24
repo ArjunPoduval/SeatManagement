@@ -1,8 +1,8 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace MainAssessment.Controllers
 {
@@ -11,13 +11,11 @@ namespace MainAssessment.Controllers
     public class SeatController : Controller
     {
         private readonly ISeat _seatService;
-        private readonly IReportCall _unallocatedSeatReport;
         private readonly IReportCall _allocatedSeatReport;
 
-        public SeatController(ISeat seatTableService, IReportCall unallocated, IReportCall allocated)
+        public SeatController(ISeat seatTableService, IReportCall allocated)
         {
             _seatService = seatTableService;
-            _unallocatedSeatReport = unallocated;
             _allocatedSeatReport = allocated;
         }
 
@@ -35,8 +33,8 @@ namespace MainAssessment.Controllers
                 _seatService.AddSeat(seatTableDTO);
                 return Ok();
             }
-            catch(ObjectAlreadyExistException ex) 
-            { 
+            catch (ObjectAlreadyExistException ex)
+            {
                 return Conflict(ex.Message);
             }
             catch (Exception ex)
@@ -46,11 +44,11 @@ namespace MainAssessment.Controllers
         }
 
         [HttpPatch("{seatID}")]
-        public IActionResult UpdateSeatDetail(int seatId,int? employeeId)
+        public IActionResult UpdateSeatDetail(int seatId, int? employeeId)
         {
             try
             {
-                _seatService.UpdateSeatDetail(seatId,employeeId);
+                _seatService.UpdateSeatDetail(seatId, employeeId);
                 return Ok();
             }
             catch (Exception ex)
@@ -61,7 +59,7 @@ namespace MainAssessment.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteSeat(int id)
+        public IActionResult DeleteSeat(int id)
         {
             try
             {
@@ -74,16 +72,21 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpGet("report")]
-        
-        public IActionResult GenerateSeatAllocationReport(int allocationType,SeatAllocationReportRequest allocationFilterRequest)
+        [HttpPost("reports")]
+        public IActionResult GenerateSeatAllocationReport(SeatAllocationReportRequest allocationFilterRequest)
         {
-
-            if (allocationType == 1)
+            try
             {
-                return Ok(_allocatedSeatReport.GetAllAllocatedSeats());
+                return Ok(_allocatedSeatReport.GenerateSeatAllocationReport(allocationFilterRequest));
             }
-            return Ok(_unallocatedSeatReport.GetAllUnallocatedSeats());
+            catch (ObjectDoNotExist ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
     }
