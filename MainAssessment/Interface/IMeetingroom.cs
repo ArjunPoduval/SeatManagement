@@ -7,7 +7,7 @@ namespace MainAssessment.Interface
 {
     public interface IMeetingroom
     {
-        IEnumerable<MeetingRoomTable> GetAllMeetingRooms();
+        IEnumerable<MeetingRoom> GetAllMeetingRooms();
         void AddMeetingRoom(MeetingroomDTO meetingRoomTable);
         void UpdateMeetingRoom(int meetingRoomId, MeetingroomDTO updatedMeetingRoomTable);
         void RemoveMeetingRoom(int meetingRoomId);

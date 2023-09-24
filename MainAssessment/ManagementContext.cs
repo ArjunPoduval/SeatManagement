@@ -6,26 +6,26 @@ namespace MainAssessment
     public class ManagementContext : DbContext
     {
         public ManagementContext(DbContextOptions options) : base(options) { }
-        public DbSet<City> CityLookups { get; set; }
-        public DbSet<Building> Buildings { get; set; }
-        public DbSet<Facility> Facilities { get; set; }
-        public DbSet<Department> DepartmentLookups { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Seat> SeatTable { get; set; }
-        public DbSet<AssetType> AssetLookups { get; set; }
-        public DbSet<Cabin> CabinTable { get; set; }
-        public DbSet<MeetingRoomTable> MeetingRoomTable { get; set; }
-        public DbSet<Assets> Assets { get; set; }
+        public DbSet<City> city { get; set; }
+        public DbSet<Building> buildings { get; set; }
+        public DbSet<Facility> facilities { get; set; }
+        public DbSet<Department> department { get; set; }
+        public DbSet<Employee> employees { get; set; }
+        public DbSet<Seat> seat { get; set; }
+        public DbSet<AssetType> assetType { get; set; }
+        public DbSet<Cabin> cabin { get; set; }
+        public DbSet<MeetingRoom> meetingRoom { get; set; }
+        public DbSet<Assets> assets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder
-                .Entity<UnAllocatedSeat>()
+                .Entity<UnAllocatedSeatsReport>()
                 .ToView("UnAllocatedSeat")
                 .HasKey(e => e.SeatId);
             modelBuilder
-                .Entity<AllocatedSeat>()
+                .Entity<AllocatedSeatsReport>()
                 .ToView("AllocatedSeat")
                 .HasKey(e => e.SeatId);
 

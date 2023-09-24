@@ -1,6 +1,6 @@
 ﻿namespace MainAssessment.Tables
 {
-    public class AllocatedSeat
+    public class AllocatedSeatsReport
     {
         public int SeatId { get; set; }
         public string CityAbbreviation { get; set; }

@@ -7,22 +7,22 @@ namespace MainAssessment.services
     public class SeatReportService : IReportCall
     {
 
-        private readonly IRepository<AllocatedSeat> _allocatedSeatReportRepository;
-        private readonly IRepository<UnAllocatedSeat> _unallocatedSeatReportRepository;
+        private readonly IRepository<AllocatedSeatsReport> _allocatedSeatReportRepository;
+        private readonly IRepository<UnAllocatedSeatsReport> _unallocatedSeatReportRepository;
 
-        public SeatReportService(IRepository<AllocatedSeat> allocatedSeats, IRepository<UnAllocatedSeat> unallocatedSeats)
+        public SeatReportService(IRepository<AllocatedSeatsReport> allocatedSeats, IRepository<UnAllocatedSeatsReport> unallocatedSeats)
         {
             this._allocatedSeatReportRepository = allocatedSeats;
             this._unallocatedSeatReportRepository = unallocatedSeats;
         }
 
-        public IEnumerable<AllocatedSeat> GetAllAllocatedSeats()
+        public IEnumerable<AllocatedSeatsReport> GetAllAllocatedSeats()
         {
 
             return _allocatedSeatReportRepository.GetAll();
         }
 
-        public IEnumerable<UnAllocatedSeat> GetAllUnallocatedSeats()
+        public IEnumerable<UnAllocatedSeatsReport> GetAllUnallocatedSeats()
         {
 
             return _unallocatedSeatReportRepository.GetAll();

@@ -10,18 +10,18 @@ namespace SeatManagementConsoleFrontend.Reports
 {
     internal class Report
     {
-        public List<AllocatedSeat> Allocatedreport()
+        public List<AllocatedSeatsReport> Allocatedreport()
         {
-            ISeatManagerAPI<AllocatedSeat> Allocatedreport = new SeatManagementAPICall<AllocatedSeat>("Allocated");
+            ISeatManagerAPI<AllocatedSeatsReport> Allocatedreport = new SeatManagementAPICall<AllocatedSeatsReport>("Allocated");
 
             var report = Allocatedreport.GetData();
 
             return report;
 
         }
-        public List<UnAllocatedSeat> unAllocatedreport()
+        public List<UnAllocatedSeatsReport> unAllocatedreport()
         {
-            ISeatManagerAPI<UnAllocatedSeat> Allocatedreport = new SeatManagementAPICall<UnAllocatedSeat>("UnAllocated");
+            ISeatManagerAPI<UnAllocatedSeatsReport> Allocatedreport = new SeatManagementAPICall<UnAllocatedSeatsReport>("UnAllocated");
            
             var report = Allocatedreport.GetData();
 

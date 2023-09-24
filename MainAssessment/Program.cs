@@ -16,11 +16,11 @@ builder.Services.AddSingleton<IRepository<Department>,Repository<Department>>();
 builder.Services.AddSingleton<IRepository<Employee>,Repository<Employee>>();
 builder.Services.AddSingleton<IRepository<AssetType>,Repository<AssetType>>();
 builder.Services.AddSingleton<IRepository<Assets>,Repository<Assets>>();
-builder.Services.AddSingleton<IRepository<MeetingRoomTable>,Repository<MeetingRoomTable>>();
+builder.Services.AddSingleton<IRepository<MeetingRoom>,Repository<MeetingRoom>>();
 builder.Services.AddSingleton<IRepository<Seat>,Repository<Seat>>();
 builder.Services.AddSingleton<IRepository<Cabin>,Repository<Cabin>>();
-builder.Services.AddSingleton<IRepository<UnAllocatedSeat>,Repository<UnAllocatedSeat>>();
-builder.Services.AddSingleton<IRepository<AllocatedSeat>,Repository<AllocatedSeat>>();
+builder.Services.AddSingleton<IRepository<UnAllocatedSeatsReport>,Repository<UnAllocatedSeatsReport>>();
+builder.Services.AddSingleton<IRepository<AllocatedSeatsReport>,Repository<AllocatedSeatsReport>>();
 
 builder.Services.AddSingleton < ICity,CityService>();
 builder.Services.AddSingleton < IBuilding,BuildingService>();

@@ -4,7 +4,7 @@ namespace MainAssessment.Interface
 {
     public interface IReportCall
     {
-        IEnumerable<AllocatedSeat> GetAllAllocatedSeats();
-        IEnumerable<UnAllocatedSeat> GetAllUnallocatedSeats();
+        IEnumerable<AllocatedSeatsReport> GetAllAllocatedSeats();
+        IEnumerable<UnAllocatedSeatsReport> GetAllUnallocatedSeats();
     }
 }

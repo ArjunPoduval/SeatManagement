@@ -21,7 +21,7 @@ namespace MainAssessment.Tables
         [ForeignKey("MeetingRoom")]
         //[DefaultValue(null)]
         public int? MeetingRoomId { get; set; }
-        public virtual MeetingRoomTable? MeetingRoom { get; set; }
+        public virtual MeetingRoom? MeetingRoom { get; set; }
 
 
     }

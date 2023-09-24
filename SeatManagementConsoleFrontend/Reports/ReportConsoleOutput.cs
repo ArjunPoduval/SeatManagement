@@ -9,7 +9,7 @@ namespace SeatManagementConsoleFrontend.Reports
 {
     internal class ReportConsoleOutput
     {
-        public void AllocatedReportConsoleOutput(List<AllocatedSeat>? reports)
+        public void AllocatedReportConsoleOutput(List<AllocatedSeatsReport>? reports)
         {
             if (reports.ToList().Count != 0)
             {
@@ -25,7 +25,7 @@ namespace SeatManagementConsoleFrontend.Reports
                 Console.WriteLine("No Allocated Seats");
             }
         }
-        public void UnAllocatedReportConsoleOutput(List<UnAllocatedSeat>? reports)
+        public void UnAllocatedReportConsoleOutput(List<UnAllocatedSeatsReport>? reports)
         {
             if (reports.ToList().Count != 0)
             {

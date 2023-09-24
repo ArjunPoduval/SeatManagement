@@ -10,16 +10,16 @@ namespace MainAssessment.services
 {
     public class MeetingRoomTableService : IMeetingroom
     {
-        private readonly IRepository<MeetingRoomTable> _meetingRoomTableRepository;
+        private readonly IRepository<MeetingRoom> _meetingRoomTableRepository;
         private readonly IRepository<Facility> _facilityRepository;
 
-        public MeetingRoomTableService(IRepository<MeetingRoomTable> meetingRoomTableRepository, IRepository<Facility> facilityRepository)
+        public MeetingRoomTableService(IRepository<MeetingRoom> meetingRoomTableRepository, IRepository<Facility> facilityRepository)
         {
             _meetingRoomTableRepository = meetingRoomTableRepository;
             _facilityRepository = facilityRepository;
         }
 
-        public IEnumerable<MeetingRoomTable> GetAllMeetingRooms()
+        public IEnumerable<MeetingRoom> GetAllMeetingRooms()
         {
             return _meetingRoomTableRepository.GetAll();
         }
@@ -38,7 +38,7 @@ namespace MainAssessment.services
                 throw new Exception("This Facility already has a meeting room with same meeting room number.");
             }
         //adding meeting room
-            var item = new MeetingRoomTable()
+            var item = new MeetingRoom()
             {
                 FacilityId = meetingRoomTable.FacilityId,
                 MeetingRoomNumber = meetingRoomTable.MeetingRoomNumber,

@@ -100,7 +100,7 @@ namespace SeatManagementConsoleFrontend
         {
 
             ISeatManagerAPI<Assets> updateasset = new SeatManagementAPICall<Assets>("Assets");
-            ISeatManagerAPI<MeetingRoomTable> meetingmanager = new SeatManagementAPICall<MeetingRoomTable>("Meetingroom");
+            ISeatManagerAPI<MeetingRoom> meetingmanager = new SeatManagementAPICall<MeetingRoom>("Meetingroom");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
             var assets = updateasset.GetData().Where(a=>a.MeetingRoomId==null);

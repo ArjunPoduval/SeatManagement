@@ -1,6 +1,6 @@
 ﻿namespace MainAssessment.Tables
 {
-    public class UnAllocatedSeat
+    public class UnAllocatedSeatsReport
     {
         public int SeatId { get; set; }
         public string CityAbbreviation { get; set; }

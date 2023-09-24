@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MainAssessment.Tables
 {
-    public class MeetingRoomTable
+    public class MeetingRoom
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
