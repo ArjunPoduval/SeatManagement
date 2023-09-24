@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.services;
 using MainAssessment.Tables;
@@ -28,10 +29,21 @@ namespace MainAssessment.Controllers
         [HttpPost]
         public IActionResult CreateCity(CityDTO cityDTO)
         {
-         
+            try
+            {
                 cityServices.AddCity(cityDTO);
-
                 return Ok();
+            }
+            catch(ObjectAlreadyExistException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+         
+               
            
         }
         [HttpDelete]

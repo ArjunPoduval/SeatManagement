@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -7,7 +8,7 @@ namespace MainAssessment.services
 {
     public class SeatService : ISeat
     {
-        private readonly IRepository<Seat> _seatTableRepository;
+        private readonly IRepository<Seat> _seatRepository;
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Facility> _facilityRepository;
 
@@ -16,14 +17,14 @@ namespace MainAssessment.services
             IRepository<Employee> employeeRepository,
             IRepository<Facility> facilityRepository)
         {
-            _seatTableRepository = seatTableRepository;
+            _seatRepository = seatTableRepository;
             _employeeRepository = employeeRepository;
             _facilityRepository = facilityRepository;
         }
 
         public IEnumerable<Seat> GetAllSeats()
         {
-            return _seatTableRepository.GetAll();
+            return _seatRepository.GetAll();
         }
 
         public void AddSeat(SeatTableDTO seatTable)
@@ -35,9 +36,9 @@ namespace MainAssessment.services
                 throw new Exception("The Facility does not exist.");
             }
             //check if the seat already exist
-            if (_seatTableRepository.GetAll().Any(s => s.FacilityId == seatTable.FacilityId && s.SeatNumber == seatTable.SeatNumber))
+            if (_seatRepository.GetAll().Any(s => s.FacilityId == seatTable.FacilityId && s.SeatNumber == seatTable.SeatNumber))
             {
-                throw new Exception("This Facility already has that seat number.");
+                throw new ObjectAlreadyExistException();
             }
         //adding seat
             var item = new Seat()
@@ -45,8 +46,8 @@ namespace MainAssessment.services
                 FacilityId = seatTable.FacilityId,
                 SeatNumber = seatTable.SeatNumber
             };
-            _seatTableRepository.Add(item);
-            _seatTableRepository.Save();
+            _seatRepository.Add(item);
+            _seatRepository.Save();
         }
 
         public void UpdateSeatDetail(int seatId, int? employeeId)
@@ -54,7 +55,7 @@ namespace MainAssessment.services
         //validation
 
             // Check if the seat exists
-            var seat = _seatTableRepository.GetById(seatId);
+            var seat = _seatRepository.GetById(seatId);
 
             if (seat == null)
             {
@@ -105,22 +106,22 @@ namespace MainAssessment.services
             // Set EmployeeId in SeatTable and isallocated in Employee table
             seat.EmployeeId = employeeId;
 
-            _seatTableRepository.Update(seat);
-            _seatTableRepository.Save();
+            _seatRepository.Update(seat);
+            _seatRepository.Save();
         }
 
          
         public void RemoveSeat(int seatId)
         {
-            var seat = _seatTableRepository.GetById(seatId);
+            var seat = _seatRepository.GetById(seatId);
             if (seat == null)
             {
                 throw new Exception("The Seat record does not exist.");
             }
             else
             {
-                _seatTableRepository.Remove(seat);
-                _seatTableRepository.Save();
+                _seatRepository.Remove(seat);
+                _seatRepository.Save();
             }
         }
     }

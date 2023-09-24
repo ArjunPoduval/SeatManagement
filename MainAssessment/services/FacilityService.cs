@@ -8,32 +8,32 @@ namespace MainAssessment.services
 {
     public class FacilityService : IFacility
     {
-        private readonly IRepository<Facility> repository;
-        private readonly IRepository<Building> buildingRepository;
+        private readonly IRepository<Facility> _facilityRepository;
+        private readonly IRepository<Building> _buildingRepository;
 
         public FacilityService(IRepository<Facility> repository, IRepository<Building> buildingRepository)
         {
-            this.repository = repository;
-            this.buildingRepository = buildingRepository;
+            this._facilityRepository = repository;
+            this._buildingRepository = buildingRepository;
         }
 
         public IEnumerable<Facility> GetAll()
         {
-            return repository.GetAll();
+            return _facilityRepository.GetAll();
         }
 
         public void AddFacility(FacilityDTO facility)
         {
         //Validation
             int buildingId = facility.BuildingId;
-            var exist = buildingRepository.GetById(buildingId);
+            var exist = _buildingRepository.GetById(buildingId);
             //building id validation
             if (exist == null)
             {
                 throw new Exception("The Building Id does not exist.");
             }
             //facilityname validation
-            var facilitycheck = repository.GetAll().FirstOrDefault(c => c.FacilityName == facility.FacilityName && c.Floor == facility.Floor);
+            var facilitycheck = _facilityRepository.GetAll().FirstOrDefault(c => c.FacilityName == facility.FacilityName && c.Floor == facility.Floor);
             if (facilitycheck != null)
             {
                 throw new Exception("Facility with the same Name exist in the same floor");
@@ -45,14 +45,14 @@ namespace MainAssessment.services
                 Floor = facility.Floor,
                 FacilityName = facility.FacilityName
             };
-            repository.Add(item);
-            repository.Save();
+            _facilityRepository.Add(item);
+            _facilityRepository.Save();
         }
 
         public void RemoveFacility(int FacilityId)
         {
         //Validation
-            var item = repository.GetById(FacilityId);
+            var item = _facilityRepository.GetById(FacilityId);
             if (item == null)
             {
                 throw new Exception("The Facility does not exist.");
@@ -60,8 +60,8 @@ namespace MainAssessment.services
         //Removing
             else
             {
-                repository.Remove(item);
-                repository.Save();
+                _facilityRepository.Remove(item);
+                _facilityRepository.Save();
             }
         }
     }

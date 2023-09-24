@@ -1,4 +1,6 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using System;
@@ -8,48 +10,48 @@ namespace MainAssessment.services
 {
     public class DepartmentService : IDepartment
     {
-        private readonly IRepository<Department> repository;
+        private readonly IRepository<Department> _departmentRepository;
 
         public DepartmentService(IRepository<Department> repository)
         {
-            this.repository = repository;
+            this._departmentRepository = repository;
         }
 
         public IEnumerable<Department> GetAllDepartments()
         {
-            return repository.GetAll();
+            return _departmentRepository.GetAll();
         }
 
         public void AddDepartment(DepartmentCreationDTO newDepartment)
         {
         //Validation
-            var departmentcreation = repository.GetAll().FirstOrDefault(c => c.DepartmentName == newDepartment.departmentName);
+            var departmentcreation = _departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentName == newDepartment.departmentName);
             if (departmentcreation != null)
             {
-                throw new Exception("Similar Department already exist.");
+                throw new ObjectAlreadyExistException();
             }
         //Creation
             var item = new Department()
             {
                 DepartmentName = newDepartment.departmentName
             };
-            repository.Add(item);
-            repository.Save();
+            _departmentRepository.Add(item);
+            _departmentRepository.Save();
         }
 
         public void RemoveDepartment(int DepId)
         {
         //Validation
-            var item = repository.GetById(DepId);
+            var item = _departmentRepository.GetById(DepId);
             if (item == null)
             {
-                throw new Exception("The Department does not exist.");
+                throw new ObjectDoNotExist();
             }
         //Removing
             else
             {
-                repository.Remove(item);
-                repository.Save();
+                _departmentRepository.Remove(item);
+                _departmentRepository.Save();
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using System;
@@ -63,7 +64,7 @@ namespace MainAssessment.services
             //check if the meeting room already exist
             if (_meetingRoomTableRepository.GetAll().Any(m => m.FacilityId == updatedMeetingRoomTable.FacilityId && m.MeetingRoomNumber == updatedMeetingRoomTable.MeetingRoomNumber && m.TotalSeats == updatedMeetingRoomTable.TotalSeats))
             {
-                throw new Exception("This Facility already has a meeting room with same meeting room number and seats.");
+                throw new ObjectAlreadyExistException();
             }
 
             // Update properties with new values

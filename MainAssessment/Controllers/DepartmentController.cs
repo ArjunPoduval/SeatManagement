@@ -1,4 +1,6 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +33,10 @@ namespace MainAssessment.Controllers
                 departmentService.AddDepartment(newDepartment);
                 return Ok();
             }
+            catch(ObjectAlreadyExistException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -45,6 +51,10 @@ namespace MainAssessment.Controllers
             {
                 departmentService.RemoveDepartment(depId);
                 return Ok();
+            }
+            catch (ObjectDoNotExist ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

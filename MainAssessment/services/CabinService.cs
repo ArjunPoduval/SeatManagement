@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,7 +11,7 @@ namespace MainAssessment.services
 {
     public class CabinService : ICabin
     {
-        private readonly IRepository<Cabin> _cabinTableRepository;
+        private readonly IRepository<Cabin> _cabinRepository;
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Facility> _facilityRepository;
 
@@ -19,14 +20,14 @@ namespace MainAssessment.services
             IRepository<Employee> employeeRepository,
             IRepository<Facility> facilityRepository)
         {
-            _cabinTableRepository = cabinTableRepository;
+            _cabinRepository = cabinTableRepository;
             _employeeRepository = employeeRepository;
             _facilityRepository = facilityRepository;
         }
 
         public IEnumerable<Cabin> GetAllCabins()
         {
-            return _cabinTableRepository.GetAll();
+            return _cabinRepository.GetAll();
         }
 
         public void AddCabin(CabinTableDTO cabinTableDTO)
@@ -37,9 +38,9 @@ namespace MainAssessment.services
                 throw new Exception("The Facility does not exist.");
             }
             //check if the cabin already exist
-            if (_cabinTableRepository.GetAll().Any(s => s.FacilityId == cabinTableDTO.FacilityId && s.CabinNumber == cabinTableDTO.CabinNumber))
+            if (_cabinRepository.GetAll().Any(s => s.FacilityId == cabinTableDTO.FacilityId && s.CabinNumber == cabinTableDTO.CabinNumber))
             {
-                throw new Exception("This Facility already has that cabin number.");
+                throw new ObjectAlreadyExistException();
             }
 
             var item = new Cabin()
@@ -47,15 +48,15 @@ namespace MainAssessment.services
                 FacilityId = cabinTableDTO.FacilityId,
                 CabinNumber = cabinTableDTO.CabinNumber
             };
-            _cabinTableRepository.Add(item);
-            _cabinTableRepository.Save();
+            _cabinRepository.Add(item);
+            _cabinRepository.Save();
         }
 
         public void UpdateCabinDetail(int cabinId, int? employeeId)
         {
             
             // Check if the cabin exists
-            var cabin = _cabinTableRepository.GetAll()
+            var cabin = _cabinRepository.GetAll()
                 .FirstOrDefault(c => c.CabinId == cabinId);
 
             if (cabin == null)
@@ -105,22 +106,22 @@ namespace MainAssessment.services
 
             // Set EmployeeId in CabinTable and isallocated in Employee table
             cabin.EmployeeId = employeeId;
-            _cabinTableRepository.Update(cabin);
-            _cabinTableRepository.Save();
+            _cabinRepository.Update(cabin);
+            _cabinRepository.Save();
         }
 
 
         public void RemoveCabin(int cabinId)
         {
-            var cabin = _cabinTableRepository.GetById(cabinId);
+            var cabin = _cabinRepository.GetById(cabinId);
             if (cabin == null)
             {
                 throw new Exception("The Cabin record does not exist.");
             }
             else
             {
-                _cabinTableRepository.Remove(cabin);
-                _cabinTableRepository.Save();
+                _cabinRepository.Remove(cabin);
+                _cabinRepository.Save();
             }
         }
     }

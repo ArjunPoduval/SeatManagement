@@ -5,53 +5,55 @@ using NuGet.Protocol.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MainAssessment.CustomException;
+using MainAssessment.Exceptions;
 
 namespace MainAssessment.services
 {
     public class AssetTypeService : IAssetType
     {
-        private readonly IRepository<AssetType> _assetLookupRepository;
+        private readonly IRepository<AssetType> _assetTypeRepository;
 
         public AssetTypeService(IRepository<AssetType> assetLookupRepository)
         {
-            _assetLookupRepository = assetLookupRepository;
+            _assetTypeRepository = assetLookupRepository;
         }
 
         public IEnumerable<AssetType> GetAllAssetTypes()
         {
-            return _assetLookupRepository.GetAll();
+            return _assetTypeRepository.GetAll();
         }
 
         public void AddAssetType(AssetTypeCreation newAssetType)
         {
         //Validation
-            var lookupcreation = _assetLookupRepository.GetAll().FirstOrDefault(c => c.AssetName==newAssetType.assetName);
+            var lookupcreation = _assetTypeRepository.GetAll().FirstOrDefault(c => c.AssetName==newAssetType.assetName);
             if (lookupcreation != null)
             {
-                throw new Exception("Similar Asset already exist.");
+                throw new ObjectAlreadyExistException();
             }
         //Creation
             var item = new AssetType()
             {
                 AssetName = newAssetType.assetName
             };
-            _assetLookupRepository.Add(item);
-            _assetLookupRepository.Save();
+            _assetTypeRepository.Add(item);
+            _assetTypeRepository.Save();
         }
 
         public void RemoveAssetType(int assetLookupId)
         {
         //Validation
-            var assetLookup = _assetLookupRepository.GetById(assetLookupId);
+            var assetLookup = _assetTypeRepository.GetById(assetLookupId);
             if (assetLookup == null)
             {
-                throw new Exception("The Asset does not exist.");
+                throw new ObjectDoNotExist();
             }
         //Removing
             else
             {
-                _assetLookupRepository.Remove(assetLookup);
-                _assetLookupRepository.Save();
+                _assetTypeRepository.Remove(assetLookup);
+                _assetTypeRepository.Save();
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using Microsoft.AspNetCore.Mvc;
@@ -7,27 +8,27 @@ namespace MainAssessment.services
 {
     public class CityService : ICity
     {
-        private readonly IRepository<City> repository;
+        private readonly IRepository<City> _cityRepository;
 
         public CityService(IRepository<City> repository)
         {
-            this.repository = repository;
+            this._cityRepository = repository;
         }
 
         
         public IEnumerable<City> GetAllCity()
         {
 
-            return repository.GetAll();
+            return _cityRepository.GetAll();
         }
         public void AddCity(CityDTO city)
         {
         //Validation
 
-            var cityCreationCheck = repository.GetAll().FirstOrDefault(c => c.CityName == city.City || c.CityAbbreviation==city.Abbreviation);
+            var cityCreationCheck = _cityRepository.GetAll().FirstOrDefault(c => c.CityName == city.City || c.CityAbbreviation==city.Abbreviation);
             if (cityCreationCheck != null)
             {
-                throw new Exception("Similar city Name or Abbreviation already exist.");
+                throw new ObjectAlreadyExistException();
             }
         //creation
             var item = new City()
@@ -35,14 +36,14 @@ namespace MainAssessment.services
                 CityAbbreviation = city.Abbreviation,
                 CityName = city.City
             };
-            repository.Add(item);
-            repository.Save();
+            _cityRepository.Add(item);
+            _cityRepository.Save();
         }
 
         public void RemoveCity(int cityid)
         {
         //validation
-            var item = repository.GetById(cityid);
+            var item = _cityRepository.GetById(cityid);
             if (item == null)
             {
                 throw new Exception("No City Found.");
@@ -50,8 +51,8 @@ namespace MainAssessment.services
         //Removing
             else
             {
-                repository.Remove(item);
-                repository.Save();
+                _cityRepository.Remove(item);
+                _cityRepository.Save();
             }
         }
 

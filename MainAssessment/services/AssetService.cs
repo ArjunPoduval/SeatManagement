@@ -1,4 +1,5 @@
 ﻿using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using System;
@@ -9,25 +10,25 @@ namespace MainAssessment.services
 {
     public class AssetsService : IAsset
     {
-        private readonly IRepository<Assets> _assetsRepository;
+        private readonly IRepository<Assets> _assetRepository;
         private readonly IRepository<Facility> _facilityRepository;
         private readonly IRepository<MeetingRoomTable> _meetingRoomRepository;
-        private readonly IRepository<AssetType> _assetlookupRepository;
+        private readonly IRepository<AssetType> _assetTypeRepository;
 
         public AssetsService(IRepository<Assets> assetsRepository,
                              IRepository<Facility> facilityRepository,
                              IRepository<MeetingRoomTable> meetingRoomRepository,
                              IRepository<AssetType> assetlookupRepository)
         {
-            _assetsRepository = assetsRepository;
+            _assetRepository = assetsRepository;
             _facilityRepository = facilityRepository;
             _meetingRoomRepository = meetingRoomRepository;
-            _assetlookupRepository = assetlookupRepository;
+            _assetTypeRepository = assetlookupRepository;
         }
 
         public IEnumerable<Assets> GetAllAssets()
         {
-            return _assetsRepository.GetAll();
+            return _assetRepository.GetAll();
         }
 
         public void AddAssets(AssetCreationDTO assets)
@@ -39,7 +40,7 @@ namespace MainAssessment.services
                 throw new Exception("The Facility does not exist.");
             }
             // Check if Assetid exists in Assetlookup table
-            if (!_assetlookupRepository.GetAll().Any(a => a.AssetId == assets.AssetId))
+            if (!_assetTypeRepository.GetAll().Any(a => a.AssetId == assets.AssetId))
             {
                 throw new Exception("The Asset does not exist.");
             }
@@ -50,14 +51,14 @@ namespace MainAssessment.services
                 FacilityId = assets.FacilityId,
                 AssetId = assets.AssetId
             };
-            _assetsRepository.Add(item);
+            _assetRepository.Add(item);
 
-            _assetsRepository.Save();
+            _assetRepository.Save();
         }
 
         public void UpdateAssetDetails(int assetsIndexId, int? MeetingRoomId)
         {
-            var assetDetails = _assetsRepository.GetById(assetsIndexId);
+            var assetDetails = _assetRepository.GetById(assetsIndexId);
             if (assetDetails == null)
             {
                 throw new Exception("The Assets record does not exist.");
@@ -86,24 +87,24 @@ namespace MainAssessment.services
             
             assetDetails.MeetingRoomId = MeetingRoomId;
 
-            _assetsRepository.Update(assetDetails);
-            _assetsRepository.Save();
+            _assetRepository.Update(assetDetails);
+            _assetRepository.Save();
         }
 
         public void RemoveAssets(int assetsIndexId)
         {
             //validation
-            var assets = _assetsRepository.GetById(assetsIndexId);
+            var assets = _assetRepository.GetById(assetsIndexId);
             if (assets == null)
             {
-                throw new Exception("The Assets record does not exist.");
+                throw new ObjectDoNotExist();
             }
 
             //Remove
             else
             {
-                _assetsRepository.Remove(assets);
-                _assetsRepository.Save();
+                _assetRepository.Remove(assets);
+                _assetRepository.Save();
             }
         }
     }

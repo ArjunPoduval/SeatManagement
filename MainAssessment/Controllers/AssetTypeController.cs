@@ -1,4 +1,6 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -30,6 +32,10 @@ namespace MainAssessment.Controllers
                 _assetTypeService.AddAssetType(newAssetType);
                 return Ok();
             }
+            catch(ObjectAlreadyExistException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -45,6 +51,10 @@ namespace MainAssessment.Controllers
             {
                 _assetTypeService.RemoveAssetType(id);
                 return Ok();
+            }
+            catch (ObjectDoNotExist ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

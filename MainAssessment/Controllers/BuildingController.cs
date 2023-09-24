@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,10 @@ namespace MainAssessment.Controllers
                 buildingService.AddBuilding(buildingDTO);
 
                 return Ok();
+            }
+            catch(ObjectAlreadyExistException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

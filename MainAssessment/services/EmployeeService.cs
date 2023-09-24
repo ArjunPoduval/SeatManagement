@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 using System;
@@ -29,7 +30,7 @@ namespace MainAssessment.services
             var employeecreaiton = _employeeRepository.GetAll().FirstOrDefault(c => c.EmployeeName == employee.EmployeeName);
             if (employeecreaiton != null)
             {
-                throw new Exception("Similar Employee already exist.");
+                throw new ObjectAlreadyExistException();
             }
             if (_departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentId == employee.DepartmentId)==null)
             {

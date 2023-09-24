@@ -1,4 +1,5 @@
 ﻿using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,6 +59,10 @@ namespace MainAssessment.Controllers
             {
                 _assetsService.RemoveAssets(assetIndexId);
                 return Ok();
+            }
+            catch(ObjectDoNotExist ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

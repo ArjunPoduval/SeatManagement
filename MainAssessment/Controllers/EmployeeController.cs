@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -29,6 +30,10 @@ namespace MainAssessment.Controllers
             {
                 _employeeService.AddEmployee(employeeDTO);
                 return Ok();
+            }
+            catch(ObjectAlreadyExistException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

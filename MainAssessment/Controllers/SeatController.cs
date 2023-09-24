@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -9,21 +10,21 @@ namespace MainAssessment.Controllers
     [ApiController]
     public class SeatController : Controller
     {
-        private readonly ISeat _seatTableService;
-        private readonly IReportCall _unallocated;
-        private readonly IReportCall _allocated;
+        private readonly ISeat _seatService;
+        private readonly IReportCall _unallocatedSeatReport;
+        private readonly IReportCall _allocatedSeatReport;
 
         public SeatController(ISeat seatTableService, IReportCall unallocated, IReportCall allocated)
         {
-            _seatTableService = seatTableService;
-            _unallocated = unallocated;
-            _allocated = allocated;
+            _seatService = seatTableService;
+            _unallocatedSeatReport = unallocated;
+            _allocatedSeatReport = allocated;
         }
 
         [HttpGet]
         public IActionResult GetAllSeats()
         {
-            return Ok(_seatTableService.GetAllSeats());
+            return Ok(_seatService.GetAllSeats());
         }
 
         [HttpPost]
@@ -31,8 +32,12 @@ namespace MainAssessment.Controllers
         {
             try
             {
-                _seatTableService.AddSeat(seatTableDTO);
+                _seatService.AddSeat(seatTableDTO);
                 return Ok();
+            }
+            catch(ObjectAlreadyExistException ex) 
+            { 
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
@@ -45,7 +50,7 @@ namespace MainAssessment.Controllers
         {
             try
             {
-                _seatTableService.UpdateSeatDetail(seatId,employeeId);
+                _seatService.UpdateSeatDetail(seatId,employeeId);
                 return Ok();
             }
             catch (Exception ex)
@@ -55,12 +60,12 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{Id}")]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteSeat(int id)
         {
             try
             {
-                _seatTableService.RemoveSeat(id);
+                _seatService.RemoveSeat(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -69,15 +74,16 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPost("{allocationType}")]
+        [HttpGet("report")]
         
         public IActionResult GenerateSeatAllocationReport(int allocationType,SeatAllocationReportRequest allocationFilterRequest)
         {
+
             if (allocationType == 1)
             {
-                return Ok(_allocated.GetAllAllocatedSeats());
+                return Ok(_allocatedSeatReport.GetAllAllocatedSeats());
             }
-            return Ok(_unallocated.GetAllUnallocatedSeats());
+            return Ok(_unallocatedSeatReport.GetAllUnallocatedSeats());
 
         }
     }

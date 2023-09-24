@@ -1,4 +1,5 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -9,17 +10,17 @@ namespace MainAssessment.Controllers
     [ApiController]
     public class MeetingroomController : Controller
     {
-        private readonly IMeetingroom _meetingRoomTableService;
+        private readonly IMeetingroom _meetingRoomService;
 
         public MeetingroomController(IMeetingroom meetingRoomTableService)
         {
-            _meetingRoomTableService = meetingRoomTableService;
+            _meetingRoomService = meetingRoomTableService;
         }
 
         [HttpGet]
         public IActionResult GetAllMeetingRooms()
         {
-            return Ok(_meetingRoomTableService.GetAllMeetingRooms());
+            return Ok(_meetingRoomService.GetAllMeetingRooms());
         }
 
         [HttpPost]
@@ -27,7 +28,7 @@ namespace MainAssessment.Controllers
         {
             try
             {
-                _meetingRoomTableService.AddMeetingRoom(meetingRoomTableDTO);
+                _meetingRoomService.AddMeetingRoom(meetingRoomTableDTO);
                 return Ok();
             }
             catch (Exception ex)
@@ -41,8 +42,12 @@ namespace MainAssessment.Controllers
         {
             try
             {
-                _meetingRoomTableService.UpdateMeetingRoom(id, updatedMeetingRoomTable);
+                _meetingRoomService.UpdateMeetingRoom(id, updatedMeetingRoomTable);
                 return Ok();
+            }
+            catch(ObjectAlreadyExistException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
@@ -56,7 +61,7 @@ namespace MainAssessment.Controllers
         {
             try
             {
-                _meetingRoomTableService.RemoveMeetingRoom(id);
+                _meetingRoomService.RemoveMeetingRoom(id);
                 return Ok();
             }
             catch (Exception ex)
