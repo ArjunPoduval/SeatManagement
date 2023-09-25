@@ -3,11 +3,13 @@ using MainAssessment.DTO;
 using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace MainAssessment.Controllers
 {
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentController : Controller

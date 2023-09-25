@@ -39,6 +39,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuthentication", options =>
+{
+    options.Cookie.Name = "CookieAuthentication";
+    options.ExpireTimeSpan = TimeSpan.FromSeconds(600);
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = 402;
+        return Task.CompletedTask;
+    };
+});
+
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("User",
+        policy => policy.RequireRole("User"));
+}
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,24 +68,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseExceptionHandler(e =>
-{
-    e.Run(async c =>
-    {
-        c.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        c.Response.ContentType = "application/json";
-
-        await c.Response.WriteAsync(new GlobalErrorHandler()
-        {
-            StatusCode = c.Response.StatusCode,
-            Message = "Internal Server Error."
-        }.ToString());
-    });
-});
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<GlobalErrorHandler>();
 
 app.Run();

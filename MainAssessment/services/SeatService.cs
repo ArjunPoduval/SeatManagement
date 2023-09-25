@@ -24,7 +24,12 @@ namespace MainAssessment.services
 
         public IEnumerable<Seat> GetAllSeats()
         {
-            return _seatRepository.GetAll();
+            //int pageNumber = 1;
+            //int pageSize = 3;
+            return _seatRepository.GetAll()
+                //.Skip((2-1)*2)
+                //.Take(2)
+                ;
         }
 
         public void AddSeat(SeatTableDTO seatTable)

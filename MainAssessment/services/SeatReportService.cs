@@ -46,6 +46,14 @@ namespace MainAssessment.services
 
             return reportResponse;
         }
+        private IEnumerable<SeatAllocationReportResponse> GetAllUnallocatedSeats(SeatAllocationReportRequest reportFilter)
+        {
+            var unAllocatedReportResponse = _unallocatedSeatReportRepository.GetAll();
+            var reportResponse = MapUnAllocatedReportToSeatAllocationResponse(unAllocatedReportResponse);
+            reportResponse = FilterSeatAllocationReport(reportFilter, reportResponse);
+
+            return reportResponse;
+        }
 
         private IEnumerable<SeatAllocationReportResponse>? FilterSeatAllocationReport(SeatAllocationReportRequest reportFilter, IEnumerable<SeatAllocationReportResponse>? reportResponse)
         {
@@ -69,14 +77,6 @@ namespace MainAssessment.services
             return reportResponse;
         }
 
-        private IEnumerable<SeatAllocationReportResponse> GetAllUnallocatedSeats(SeatAllocationReportRequest reportFilter)
-        {
-            var unAllocatedReportResponse = _unallocatedSeatReportRepository.GetAll();
-            var reportResponse = MapUnAllocatedReportToSeatAllocationResponse(unAllocatedReportResponse);
-            reportResponse = FilterSeatAllocationReport(reportFilter, reportResponse);
-
-            return reportResponse;
-        }
 
         private static IEnumerable<SeatAllocationReportResponse> MapAllocatedReportToSeatAllocationResponse(IEnumerable<AllocatedSeatsReport> response)
         {
