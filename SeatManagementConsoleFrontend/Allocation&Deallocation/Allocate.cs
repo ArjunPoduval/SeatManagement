@@ -36,7 +36,7 @@ namespace SeatManagementConsoleFrontend
                 Console.WriteLine("No Employee is available for allocation.");
             }
 
-            reporting.unAllocatedreport();
+           // reporting.unAllocatedreport();
 
             
 

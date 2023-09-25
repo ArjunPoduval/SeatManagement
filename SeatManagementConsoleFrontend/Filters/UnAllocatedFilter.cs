@@ -44,9 +44,9 @@ namespace SeatManagementConsoleFrontend.Filters
                     applyFloorFilter(buildInput);
                 }
                 else if (input == 2)
-                {
+                {/*
                     var reports = report.unAllocatedreport().Where(r => r.BuildingAbbreviation == buildingtofilter.BuildingAbbreviation);
-                    output.UnAllocatedReportConsoleOutput(reports.ToList());
+                    output.UnAllocatedReportConsoleOutput(reports.ToList());*/
 
                 }
                 else
@@ -82,8 +82,8 @@ namespace SeatManagementConsoleFrontend.Filters
                 }
                 else if (input == 2)
                 {
-                    var reports = report.unAllocatedreport().Where(r => r.Floor == floorInput);
-                    output.UnAllocatedReportConsoleOutput(reports.ToList());
+                  /*  var reports = report.unAllocatedreport().Where(r => r.Floor == floorInput);
+                    output.UnAllocatedReportConsoleOutput(reports.ToList());*/
 
                 }
                 else
@@ -122,8 +122,8 @@ namespace SeatManagementConsoleFrontend.Filters
                 //}
                 //else if (input == 2)
                 //{
-                var reports = report.unAllocatedreport().Where(r => r.FacilityName == facilityInput);
-                output.UnAllocatedReportConsoleOutput(reports.ToList());
+               /* var reports = report.unAllocatedreport().Where(r => r.FacilityName == facilityInput);
+                output.UnAllocatedReportConsoleOutput(reports.ToList());*/
                 //}
                 //else
                 //{

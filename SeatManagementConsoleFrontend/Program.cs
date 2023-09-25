@@ -151,8 +151,8 @@ class Program
                         }
                         else
                         {
-                            var reports = reporting.unAllocatedreport();
-                            output.UnAllocatedReportConsoleOutput(reports.ToList());
+                            /*var reports = reporting.unAllocatedreport();
+                            output.UnAllocatedReportConsoleOutput(reports.ToList());*/
 
                         }
 

@@ -46,7 +46,7 @@ builder.Services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuth
     options.ExpireTimeSpan = TimeSpan.FromSeconds(600);
     options.Events.OnRedirectToLogin = context =>
     {
-        context.Response.StatusCode = 402;
+        context.Response.StatusCode = 401;
         return Task.CompletedTask;
     };
 });

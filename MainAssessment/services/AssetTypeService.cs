@@ -27,8 +27,8 @@ namespace MainAssessment.services
         public void AddAssetType(AssetTypeCreation newAssetType)
         {
         //Validation
-            var lookupcreation = _assetTypeRepository.GetAll().FirstOrDefault(c => c.AssetName==newAssetType.assetName);
-            if (lookupcreation != null)
+            var newTypecreation = _assetTypeRepository.GetAll().FirstOrDefault(c => c.AssetName==newAssetType.assetName);
+            if (newTypecreation != null)
             {
                 throw new ObjectAlreadyExistException();
             }
@@ -41,18 +41,18 @@ namespace MainAssessment.services
             _assetTypeRepository.Save();
         }
 
-        public void RemoveAssetType(int assetLookupId)
+        public void RemoveAssetType(int assetTypeId)
         {
         //Validation
-            var assetLookup = _assetTypeRepository.GetById(assetLookupId);
-            if (assetLookup == null)
+            var assetType = _assetTypeRepository.GetById(assetTypeId);
+            if (assetType == null)
             {
                 throw new ObjectDoNotExist();
             }
         //Removing
             else
             {
-                _assetTypeRepository.Remove(assetLookup);
+                _assetTypeRepository.Remove(assetType);
                 _assetTypeRepository.Save();
             }
         }
