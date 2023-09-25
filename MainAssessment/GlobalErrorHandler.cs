@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 
 
@@ -30,7 +28,7 @@ public class GlobalErrorHandler
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
-        var response = context.Response;
+        HttpResponse response = context.Response;
 
         var errorResponse = new
         {
@@ -41,7 +39,7 @@ public class GlobalErrorHandler
 
         response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-        var result = JsonSerializer.Serialize(errorResponse);
+        string result = JsonSerializer.Serialize(errorResponse);
         await context.Response.WriteAsync(result);
     }
 

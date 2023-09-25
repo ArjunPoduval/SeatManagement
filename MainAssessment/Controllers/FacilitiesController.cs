@@ -1,9 +1,6 @@
 ﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
-using MainAssessment.Tables;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace MainAssessment.Controllers
 {

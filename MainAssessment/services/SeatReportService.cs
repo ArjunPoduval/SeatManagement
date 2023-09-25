@@ -40,16 +40,16 @@ namespace MainAssessment.services
 
         private IEnumerable<SeatAllocationReportResponse> GetAllAllocatedSeats(SeatAllocationReportRequest reportFilter)
         {
-            var allocatedReportResponse = _allocatedSeatReportRepository.GetAll();
-            var reportResponse = MapAllocatedReportToSeatAllocationResponse(allocatedReportResponse);
+            IEnumerable<AllocatedSeatsReport> allocatedReportResponse = _allocatedSeatReportRepository.GetAll();
+            IEnumerable<SeatAllocationReportResponse>? reportResponse = MapAllocatedReportToSeatAllocationResponse(allocatedReportResponse);
             reportResponse = FilterSeatAllocationReport(reportFilter, reportResponse);
 
             return reportResponse;
         }
         private IEnumerable<SeatAllocationReportResponse> GetAllUnallocatedSeats(SeatAllocationReportRequest reportFilter)
         {
-            var unAllocatedReportResponse = _unallocatedSeatReportRepository.GetAll();
-            var reportResponse = MapUnAllocatedReportToSeatAllocationResponse(unAllocatedReportResponse);
+            IEnumerable<UnAllocatedSeatsReport> unAllocatedReportResponse = _unallocatedSeatReportRepository.GetAll();
+            IEnumerable<SeatAllocationReportResponse>? reportResponse = MapUnAllocatedReportToSeatAllocationResponse(unAllocatedReportResponse);
             reportResponse = FilterSeatAllocationReport(reportFilter, reportResponse);
 
             return reportResponse;
@@ -59,12 +59,12 @@ namespace MainAssessment.services
         {
             if (reportFilter.CityId != 0)
             {
-                var cityFiltered = _cityRepository.GetById(reportFilter.CityId) ?? throw new ObjectDoNotExist();
+                City cityFiltered = _cityRepository.GetById(reportFilter.CityId) ?? throw new ObjectDoNotExist();
                 reportResponse = reportResponse.Where(c => c.CityAbbreviation == cityFiltered.CityAbbreviation);
 
                 if (reportFilter.BuildingId != 0)
                 {
-                    var buildingFiltered = _buildingRepository.GetById(reportFilter.BuildingId) ?? throw new ObjectDoNotExist();
+                    Building buildingFiltered = _buildingRepository.GetById(reportFilter.BuildingId) ?? throw new ObjectDoNotExist();
                     reportResponse = reportResponse.Where(c => c.BuildingAbbreviation == buildingFiltered.BuildingAbbreviation);
 
                     if (reportFilter.FloorNumber != 0)
@@ -91,8 +91,8 @@ namespace MainAssessment.services
                 SeatId = report.SeatId,
                 SeatNumber = report.SeatNumber,
             });
-        } 
-        
+        }
+
         private static IEnumerable<SeatAllocationReportResponse> MapUnAllocatedReportToSeatAllocationResponse(IEnumerable<UnAllocatedSeatsReport> response)
         {
             return response.Select((report) => new SeatAllocationReportResponse

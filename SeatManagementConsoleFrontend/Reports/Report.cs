@@ -1,25 +1,16 @@
-﻿using MainAssessment.Tables;
+﻿using MainAssessment.DTO;
+using MainAssessment.Tables;
 using SeatManagementConsoleFrontend.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeatManagementConsoleFrontend.Reports
 {
     internal class Report
     {
-        public List<AllocatedSeatsReport> Allocatedreport()
+        private readonly ISeatManagerAPI<SeatAllocationReportResponse> seat = new SeatManagementAPICall<SeatAllocationReportResponse>("Seat");
+
+        public List<SeatAllocationReportResponse> SeatReport(SeatAllocationReportRequest reportFilter)
         {
-            ISeatManagerAPI<AllocatedSeatsReport> Allocatedreport = new SeatManagementAPICall<AllocatedSeatsReport>("Allocated");
-
-            var report = Allocatedreport.GetData();
-
-            return report;
-
+            return seat.GenerateReport(reportFilter);
         }
-       
-
     }
 }

@@ -1,7 +1,5 @@
 ﻿using MainAssessment.DTO;
 using MainAssessment.Tables;
-using System;
-using System.Collections.Generic;
 
 namespace MainAssessment.Interface
 {

@@ -1,12 +1,8 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using NuGet.Protocol.Core.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using MainAssessment.CustomException;
-using MainAssessment.Exceptions;
 
 namespace MainAssessment.services
 {
@@ -26,14 +22,14 @@ namespace MainAssessment.services
 
         public void AddAssetType(AssetTypeCreation newAssetType)
         {
-        //Validation
-            var newTypecreation = _assetTypeRepository.GetAll().FirstOrDefault(c => c.AssetName==newAssetType.assetName);
+            //Validation
+            AssetType? newTypecreation = _assetTypeRepository.GetAll().FirstOrDefault(c => c.AssetName == newAssetType.assetName);
             if (newTypecreation != null)
             {
                 throw new ObjectAlreadyExistException();
             }
-        //Creation
-            var item = new AssetType()
+            //Creation
+            AssetType item = new()
             {
                 AssetName = newAssetType.assetName
             };
@@ -43,13 +39,13 @@ namespace MainAssessment.services
 
         public void RemoveAssetType(int assetTypeId)
         {
-        //Validation
-            var assetType = _assetTypeRepository.GetById(assetTypeId);
+            //Validation
+            AssetType assetType = _assetTypeRepository.GetById(assetTypeId);
             if (assetType == null)
             {
                 throw new ObjectDoNotExist();
             }
-        //Removing
+            //Removing
             else
             {
                 _assetTypeRepository.Remove(assetType);

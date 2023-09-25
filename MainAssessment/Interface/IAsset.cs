@@ -7,7 +7,7 @@ namespace MainAssessment.Interface
     {
         IEnumerable<Assets> GetAllAssets();
         void AddAssets(AssetCreationDTO assets);
-        void UpdateAssetDetails(int assetsIndexId, int? meetingRoomId);
+        void UpdateAssetDetails(int indexId, int? MeetingRoomId);
         void RemoveAssets(int assetsIndexId);
     }
 }

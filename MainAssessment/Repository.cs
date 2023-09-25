@@ -39,7 +39,7 @@ namespace MainAssessment
         public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
-         
+
         }
 
     }

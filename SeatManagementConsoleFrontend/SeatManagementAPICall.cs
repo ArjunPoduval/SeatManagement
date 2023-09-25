@@ -1,9 +1,6 @@
-﻿using MainAssessment.Tables;
+﻿using MainAssessment.DTO;
 using Newtonsoft.Json;
 using SeatManagementConsoleFrontend.Interfaces;
-using System.Text;
-using System.Text.Json;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace SeatManagementConsoleFrontend
 {
@@ -19,62 +16,108 @@ namespace SeatManagementConsoleFrontend
         }
         public List<T> GetData()
         {
-            var response = client.GetAsync(apiEndpoint).Result;
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var responseContent = response.Content.ReadAsStringAsync().Result;
-                var getResponse = JsonConvert.DeserializeObject<List<T>>(responseContent);
-                return getResponse;
+                HttpResponseMessage response = client.GetAsync(apiEndpoint).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = response.Content.ReadAsStringAsync().Result;
+                    List<T>? getResponse = JsonConvert.DeserializeObject<List<T>>(responseContent);
+                    return getResponse;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+
+            catch (Exception)
             {
-                return null;
+                throw;
             }
 
         }
-        public string CreateData(T data) {
+        public string CreateData(T data)
+        {
             try
             {
-                var json = JsonConvert.SerializeObject(data);
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                string json = JsonConvert.SerializeObject(data);
+                StringContent content = new(json, System.Text.Encoding.UTF8, "application/json");
 
-                var response = client.PostAsync(apiEndpoint, content).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    
-                        return "Added a new entry.";
-                    
-                }
-                return response.Content.ReadAsStringAsync().Result ;
-
-             }
+                HttpResponseMessage response = client.PostAsync(apiEndpoint, content).Result;
+                return response.IsSuccessStatusCode ? "Added a new entry." : response.Content.ReadAsStringAsync().Result;
+            }
             catch (Exception ex)
             {
                 return ex.Message;
             }
         }
-        public string UpdateDetail(T data) {
+        public string UpdateAssetDetail(int assetIndexId, int? Id)
+        {
             try
             {
-                var json = JsonConvert.SerializeObject(data);
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-                var response = client.PatchAsync($"{apiEndpoint}", content).Result;
-                if (response.IsSuccessStatusCode)
+                if (Id != null)
                 {
-
-                    return "Allocated.";
-
+                    HttpResponseMessage response = client.PatchAsync($"{apiEndpoint}/{assetIndexId}?meetingRoomId={Id}", null).Result;
+                    return response.IsSuccessStatusCode ? "Successful." : response.Content.ReadAsStringAsync().Result;
                 }
-                return response.Content.ReadAsStringAsync().Result;
-
+                else
+                {
+                    HttpResponseMessage response = client.PatchAsync($"{apiEndpoint}/{assetIndexId}", null).Result;
+                    return response.IsSuccessStatusCode ? "Successful." : response.Content.ReadAsStringAsync().Result;
+                }
             }
             catch (Exception ex)
             {
                 return ex.Message;
             }
-          
-            
+        }
+        public string UpdateDetail(int IndexId, int? Id)
+        {
+            try
+            {
+                if (Id != null)
+                {
+                    HttpResponseMessage response = client.PatchAsync($"{apiEndpoint}/{IndexId}?employeeId={Id}", null).Result;
+                    return response.IsSuccessStatusCode ? "Successful." : response.Content.ReadAsStringAsync().Result;
+                }
+                else
+                {
+                    HttpResponseMessage response = client.PatchAsync($"{apiEndpoint}/{IndexId}", null).Result;
+                    return response.IsSuccessStatusCode ? "Successful." : response.Content.ReadAsStringAsync().Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public List<T> GenerateReport(SeatAllocationReportRequest requestFilter)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(requestFilter);
+                StringContent content = new(json, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response = client.PostAsync($"{apiEndpoint}/reports", content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = response.Content.ReadAsStringAsync().Result;
+                    List<T>? getResponse = JsonConvert.DeserializeObject<List<T>>(responseContent);
+                    return getResponse;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
         }
         public void DeleteData(T data) { }
     }

@@ -1,7 +1,4 @@
-﻿using MainAssessment.Tables;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MainAssessment.DTO
+﻿namespace MainAssessment.DTO
 {
     public class EmployeeDTO
     {

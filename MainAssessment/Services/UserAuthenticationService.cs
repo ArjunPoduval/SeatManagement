@@ -1,5 +1,4 @@
 ﻿using MainAssessment.DTO;
-using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace MainAssessment.Services
@@ -12,14 +11,14 @@ namespace MainAssessment.Services
         {
             if (user.name == "test" && user.password == "test")
             {
-                var claims = new List<Claim> { new Claim(ClaimTypes.Role, "User") };
+                List<Claim> claims = new() { new Claim(ClaimTypes.Role, "User") };
 
-                var identity = new ClaimsIdentity(claims, "CookieAuthentication");
+                ClaimsIdentity identity = new(claims, "CookieAuthentication");
 
-                var claimsPrincipal = new ClaimsPrincipal(identity);
+                ClaimsPrincipal claimsPrincipal = new(identity);
 
                 return claimsPrincipal;
-                              
+
 
             }
             else

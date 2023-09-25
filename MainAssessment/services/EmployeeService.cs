@@ -2,9 +2,6 @@
 using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MainAssessment.services
 {
@@ -13,7 +10,7 @@ namespace MainAssessment.services
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<Department> _departmentRepository;
 
-        public EmployeeService(IRepository<Employee> employeeRepository,IRepository<Department> departmentRepository)
+        public EmployeeService(IRepository<Employee> employeeRepository, IRepository<Department> departmentRepository)
         {
             _employeeRepository = employeeRepository;
             _departmentRepository = departmentRepository;
@@ -26,18 +23,18 @@ namespace MainAssessment.services
 
         public void AddEmployee(EmployeeDTO employee)
         {
-        //Validation
-            var employeecreaiton = _employeeRepository.GetAll().FirstOrDefault(c => c.EmployeeName == employee.EmployeeName);
+            //Validation
+            Employee? employeecreaiton = _employeeRepository.GetAll().FirstOrDefault(c => c.EmployeeName == employee.EmployeeName);
             if (employeecreaiton != null)
             {
                 throw new ObjectAlreadyExistException();
             }
-            if (_departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentId == employee.DepartmentId)==null)
+            if (_departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentId == employee.DepartmentId) == null)
             {
                 throw new Exception("Departmet Id doesn't exist.");
             }
-        //Creation
-            var item = new Employee()
+            //Creation
+            Employee item = new()
             {
                 EmployeeName = employee.EmployeeName,
                 DepartmentId = employee.DepartmentId
@@ -48,13 +45,13 @@ namespace MainAssessment.services
 
         public void RemoveEmployee(int employeeId)
         {
-        //Validation
-            var employee = _employeeRepository.GetById(employeeId);
+            //Validation
+            Employee employee = _employeeRepository.GetById(employeeId);
             if (employee == null)
             {
                 throw new Exception("The Employee does not exist.");
             }
-        //Removing
+            //Removing
             else
             {
                 _employeeRepository.Remove(employee);
@@ -64,10 +61,10 @@ namespace MainAssessment.services
 
         public void UpdateEmployee(int employeeId, EmployeeDTO updatedEmployee)
         {
-        //Validation
-            
+            //Validation
 
-            var employee = _employeeRepository.GetById(employeeId);
+
+            Employee employee = _employeeRepository.GetById(employeeId);
             if (employee == null)
             {
                 throw new Exception("The Employee does not exist.");
@@ -86,7 +83,7 @@ namespace MainAssessment.services
             employee.EmployeeName = updatedEmployee.EmployeeName;
 
             _employeeRepository.Update(employee);
-        
+
             _employeeRepository.Save();
         }
     }

@@ -1,10 +1,7 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
 using MainAssessment.Interface;
-using MainAssessment.services;
-using MainAssessment.Tables;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 
 namespace MainAssessment.Controllers
 {
@@ -34,7 +31,7 @@ namespace MainAssessment.Controllers
                 cityServices.AddCity(cityDTO);
                 return Ok();
             }
-            catch(ObjectAlreadyExistException ex)
+            catch (ObjectAlreadyExistException ex)
             {
                 return Conflict(ex.Message);
             }
@@ -42,9 +39,9 @@ namespace MainAssessment.Controllers
             {
                 return BadRequest(ex.Message);
             }
-         
-               
-           
+
+
+
         }
         [HttpDelete]
         [Route("{cityId}")]

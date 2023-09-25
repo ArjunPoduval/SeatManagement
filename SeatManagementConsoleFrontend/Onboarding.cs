@@ -1,36 +1,26 @@
 ﻿using MainAssessment.DTO;
-using MainAssessment.Interface;
-using MainAssessment.services;
 using MainAssessment.Tables;
-using Microsoft.AspNetCore.Mvc;
 using SeatManagementConsoleFrontend.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeatManagementConsoleFrontend
 {
     internal class Onboarding
     {
 
-        public void OnboardFacility()
+        public static void OnboardFacility()
         {
-            
+
             ISeatManagerAPI<FacilityDTO> manager = new SeatManagementAPICall<FacilityDTO>("Facilities");
             ISeatManagerAPI<City> citymanager = new SeatManagementAPICall<City>("City");
             ISeatManagerAPI<Building> buildingmanager = new SeatManagementAPICall<Building>("Building");
 
-            var citylist = citymanager.GetData();
-            var buildinglist = buildingmanager.GetData();
+            List<City> citylist = citymanager.GetData();
+            List<Building> buildinglist = buildingmanager.GetData();
             Console.WriteLine("\n<----- * Available Buildings * ----->");
-            foreach (var building in buildinglist)
+            foreach (Building building in buildinglist)
             {
-                var cityname = building.CityId;
-                Console.WriteLine($"BuildingId: {building.BuildingId} BuildingName: {building.BuildingName} CityId:{building.CityId} CityName:{(citylist.First(v=>v.CityId==building.CityId)).CityName}");
+                int cityname = building.CityId;
+                Console.WriteLine($"BuildingId: {building.BuildingId} BuildingName: {building.BuildingName} CityId:{building.CityId} CityName:{(citylist.First(v => v.CityId == building.CityId)).CityName}");
             }
             Console.WriteLine("<----- * ----->\n");
 
@@ -42,7 +32,7 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Facility Name: ");
             string facilityname = Console.ReadLine();
 
-            var item = new FacilityDTO
+            FacilityDTO item = new()
             {
                 BuildingId = Buildingid,
                 Floor = floorno,
@@ -51,17 +41,17 @@ namespace SeatManagementConsoleFrontend
 
             Console.WriteLine(manager.CreateData(item));
         }
-        public void OnboardSeats()
+        public static void OnboardSeats()
         {
             ISeatManagerAPI<SeatTableDTO> addseat = new SeatManagementAPICall<SeatTableDTO>("Seat");
             ISeatManagerAPI<Seat> seats = new SeatManagementAPICall<Seat>("Seat");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
-            var Facility = facilitymanager.GetData();
+            List<Facility> Facility = facilitymanager.GetData();
 
             Console.WriteLine("<----- Available Facility ---->");
 
-            foreach (var f in Facility)
+            foreach (Facility f in Facility)
             {
                 Console.WriteLine($"FacilityId: {f.FacilityId}, FacilityName: {f.FacilityName}");
             }
@@ -71,12 +61,12 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter FacilityId: ");
             int facilityid = Convert.ToInt32(Console.ReadLine());
 
-            var seat = seats.GetData().Where(s=>s.FacilityId == facilityid);
+            IEnumerable<Seat> seat = seats.GetData().Where(s => s.FacilityId == facilityid);
 
 
             Console.WriteLine("<----- Already Onboarded seats in the facility ---->");
 
-            foreach (var s in seat)
+            foreach (Seat? s in seat)
             {
                 Console.WriteLine($"seatId: {s.SeatId}, seatNumber: {s.SeatNumber}");
             }
@@ -92,7 +82,7 @@ namespace SeatManagementConsoleFrontend
             int seatno = seat.Count() + 1;
             for (int i = 0; i < numberofseats; i++)
             {
-                var seatadd = new SeatTableDTO
+                SeatTableDTO seatadd = new()
                 {
                     FacilityId = facilityid,
                     SeatNumber = seatno
@@ -100,21 +90,21 @@ namespace SeatManagementConsoleFrontend
                 seatno++;
                 Console.WriteLine(addseat.CreateData(seatadd));
             }
-            
+
         }
 
-        public void OnboardMeetingroom()
+        public static void OnboardMeetingroom()
         {
             ISeatManagerAPI<MeetingroomDTO> addmeetingroom = new SeatManagementAPICall<MeetingroomDTO>("Meetingroom");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
 
-            var Facility = facilitymanager.GetData();
+            List<Facility> Facility = facilitymanager.GetData();
 
 
             Console.WriteLine("<----- Available Facility ---->");
 
-            foreach (var f in Facility)
+            foreach (Facility f in Facility)
             {
                 Console.WriteLine($"FacilityId: {f.FacilityId}, FacilityName: {f.FacilityName}");
             }
@@ -127,7 +117,7 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter Total Seats: ");
             int totalseats = Convert.ToInt32(Console.ReadLine());
 
-            var meetingroom = new MeetingroomDTO
+            MeetingroomDTO meetingroom = new()
             {
                 FacilityId = facilityid,
                 MeetingRoomNumber = meetingroomno,
@@ -137,18 +127,18 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine(addmeetingroom.CreateData(meetingroom));
         }
 
-        public void OnboardCabin()
+        public static void OnboardCabin()
         {
             ISeatManagerAPI<Cabin> cabins = new SeatManagementAPICall<Cabin>("Cabin");
             ISeatManagerAPI<CabinTableDTO> addcabin = new SeatManagementAPICall<CabinTableDTO>("Cabin");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
-            var Facility = facilitymanager.GetData();
+            List<Facility> Facility = facilitymanager.GetData();
 
 
             Console.WriteLine("<----- Available Facility ---->");
 
-            foreach (var f in Facility)
+            foreach (Facility f in Facility)
             {
                 Console.WriteLine($"FacilityId: {f.FacilityId}, FacilityName: {f.FacilityName}");
             }
@@ -158,7 +148,7 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter FacilityId: ");
             int facilityid = Convert.ToInt32(Console.ReadLine());
 
-            var cabinInFacility = cabins.GetData().Where(x => x.FacilityId == facilityid);
+            IEnumerable<Cabin> cabinInFacility = cabins.GetData().Where(x => x.FacilityId == facilityid);
 
             Console.WriteLine("Enter Number of Cabins to onboard: ");
             int numberOfCabins = Convert.ToInt32(Console.ReadLine());
@@ -166,7 +156,7 @@ namespace SeatManagementConsoleFrontend
             int cabinno = cabinInFacility.Count() + 1;
             for (int i = 0; i < numberOfCabins; i++)
             {
-                var cabin = new CabinTableDTO
+                CabinTableDTO cabin = new()
                 {
                     FacilityId = facilityid,
                     CabinNumber = cabinno
@@ -176,17 +166,17 @@ namespace SeatManagementConsoleFrontend
             }
         }
 
-        public void OnboardEmployee() 
+        public static void OnboardEmployee()
         {
             ISeatManagerAPI<EmployeeDTO> addemployee = new SeatManagementAPICall<EmployeeDTO>("Employee");
             ISeatManagerAPI<Department> departmentmanager = new SeatManagementAPICall<Department>("Department");
 
 
-            var department = departmentmanager.GetData();
+            List<Department> department = departmentmanager.GetData();
 
             Console.WriteLine("<----- Available Departments ---->");
 
-            foreach (var a in department)
+            foreach (Department a in department)
             {
                 Console.WriteLine($"DepartmentId: {a.DepartmentId}, DepartmentName: {a.DepartmentName}");
             }
@@ -197,7 +187,7 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter DepartmentId: ");
             int departmentid = Convert.ToInt32(Console.ReadLine());
 
-            var employee = new EmployeeDTO
+            EmployeeDTO employee = new()
             {
                 EmployeeName = name,
                 DepartmentId = departmentid
@@ -206,28 +196,28 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine(addemployee.CreateData(employee));
         }
 
-        public void OnboardAssets()
+        public static void OnboardAssets()
         {
             ISeatManagerAPI<AssetCreationDTO> addasset = new SeatManagementAPICall<AssetCreationDTO>("Assets");
             ISeatManagerAPI<AssetType> assetlookupmanager = new SeatManagementAPICall<AssetType>("AssetType");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
-            var assets = assetlookupmanager.GetData();
+            List<AssetType> assets = assetlookupmanager.GetData();
 
             Console.WriteLine("<----- Available Assets to Onboard ---->");
 
-            foreach(var a in assets)
+            foreach (AssetType a in assets)
             {
                 Console.WriteLine($"AssetId: {a.AssetId}, AssetName: {a.AssetName}");
             }
             Console.WriteLine("<----- * ---->");
 
-            var Facility =facilitymanager.GetData();
+            List<Facility> Facility = facilitymanager.GetData();
 
 
             Console.WriteLine("<----- Available Facility ---->");
 
-            foreach (var f in Facility)
+            foreach (Facility f in Facility)
             {
                 Console.WriteLine($"FacilityId: {f.FacilityId}, FacilityName: {f.FacilityName}");
             }
@@ -239,7 +229,7 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter AssetId: ");
             int Assetid = Convert.ToInt32(Console.ReadLine());
 
-            var asset = new AssetCreationDTO
+            AssetCreationDTO asset = new()
             {
                 FacilityId = facilityId,
                 AssetId = Assetid

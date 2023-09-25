@@ -1,7 +1,5 @@
 ﻿using MainAssessment.DTO;
 using MainAssessment.Tables;
-using System;
-using System.Collections.Generic;
 
 namespace MainAssessment.Interface
 {
@@ -9,7 +7,7 @@ namespace MainAssessment.Interface
     {
         IEnumerable<Seat> GetAllSeats();
         void AddSeat(SeatTableDTO seatTable);
-        void UpdateSeatDetail(int seatId,int? employeeId);
+        void UpdateSeatDetail(int seatId, int? employeeId);
         void RemoveSeat(int seatId);
     }
 }

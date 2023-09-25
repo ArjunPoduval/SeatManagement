@@ -34,7 +34,7 @@ namespace MainAssessment.services
 
         public void AddSeat(SeatTableDTO seatTable)
         {
-        //validation
+            //validation
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == seatTable.FacilityId))
             {
@@ -45,8 +45,8 @@ namespace MainAssessment.services
             {
                 throw new ObjectAlreadyExistException();
             }
-        //adding seat
-            var item = new Seat()
+            //adding seat
+            Seat item = new()
             {
                 FacilityId = seatTable.FacilityId,
                 SeatNumber = seatTable.SeatNumber
@@ -57,10 +57,10 @@ namespace MainAssessment.services
 
         public void UpdateSeatDetail(int seatId, int? employeeId)
         {
-        //validation
+            //validation
 
             // Check if the seat exists
-            var seat = _seatRepository.GetById(seatId);
+            Seat seat = _seatRepository.GetById(seatId);
 
             if (seat == null)
             {
@@ -68,16 +68,16 @@ namespace MainAssessment.services
             }
 
             //check seat is already allocated
-            if (seat.EmployeeId != null && employeeId!= null)
+            if (seat.EmployeeId != null && employeeId != null)
             {
                 throw new Exception("Already occupied by an employee");
-            } 
-            if (seat.EmployeeId == null && employeeId== null)
+            }
+            if (seat.EmployeeId == null && employeeId == null)
             {
                 throw new Exception("Already unallocated");
             }
 
-           
+
             //employee is not already allocated another seat.
             if (_employeeRepository.GetAll().Any(c => c.EmployeeId == employeeId && c.IsAllocated == true))
             {
@@ -87,7 +87,7 @@ namespace MainAssessment.services
 
             if (employeeId.HasValue)
             {
-                var employee = _employeeRepository.GetById(employeeId.Value);
+                Employee employee = _employeeRepository.GetById(employeeId.Value);
                 if (employee != null)
                 {
                     employee.IsAllocated = true;
@@ -100,7 +100,7 @@ namespace MainAssessment.services
             }
             if (employeeId == null)
             {
-                var employee = _employeeRepository.GetById(seat.EmployeeId.Value);
+                Employee employee = _employeeRepository.GetById(seat.EmployeeId.Value);
                 if (employee != null)
                 {
                     employee.IsAllocated = false;
@@ -115,10 +115,10 @@ namespace MainAssessment.services
             _seatRepository.Save();
         }
 
-         
+
         public void RemoveSeat(int seatId)
         {
-            var seat = _seatRepository.GetById(seatId);
+            Seat seat = _seatRepository.GetById(seatId);
             if (seat == null)
             {
                 throw new Exception("The Seat record does not exist.");

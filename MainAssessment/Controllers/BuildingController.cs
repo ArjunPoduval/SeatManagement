@@ -1,9 +1,7 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
 using MainAssessment.Interface;
-using MainAssessment.Tables;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography.X509Certificates;
 
 namespace MainAssessment.Controllers
 {
@@ -31,7 +29,7 @@ namespace MainAssessment.Controllers
 
                 return Ok();
             }
-            catch(ObjectAlreadyExistException ex)
+            catch (ObjectAlreadyExistException ex)
             {
                 return Conflict(ex.Message);
             }
@@ -39,7 +37,7 @@ namespace MainAssessment.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
 
         [HttpDelete]
@@ -56,7 +54,7 @@ namespace MainAssessment.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
     }
 }

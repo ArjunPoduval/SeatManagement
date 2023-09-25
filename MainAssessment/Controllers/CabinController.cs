@@ -1,10 +1,7 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
 using MainAssessment.Interface;
-using MainAssessment.Tables;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 namespace MainAssessment.Controllers
 {
@@ -24,7 +21,7 @@ namespace MainAssessment.Controllers
         {
             try
             {
-                var cabins = _cabinTableService.GetAllCabins();
+                IEnumerable<Tables.Cabin> cabins = _cabinTableService.GetAllCabins();
                 return Ok(cabins);
             }
             catch (Exception ex)
@@ -41,7 +38,7 @@ namespace MainAssessment.Controllers
                 _cabinTableService.AddCabin(cabinTableDTO);
                 return Ok("Cabin added successfully.");
             }
-            catch(ObjectAlreadyExistException ex)
+            catch (ObjectAlreadyExistException ex)
             {
                 return Conflict(ex.Message);
             }
@@ -53,11 +50,11 @@ namespace MainAssessment.Controllers
 
         [HttpPatch]
         [Route("{cabinId}")]
-        public IActionResult UpdateCabin(int cabinId,int? employeeId)
+        public IActionResult UpdateCabin(int cabinId, int? employeeId)
         {
             try
             {
-                _cabinTableService.UpdateCabinDetail(cabinId,employeeId);
+                _cabinTableService.UpdateCabinDetail(cabinId, employeeId);
                 return Ok();
             }
             catch (Exception ex)

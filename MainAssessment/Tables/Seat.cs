@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MainAssessment.Tables
@@ -16,7 +15,7 @@ namespace MainAssessment.Tables
         public int SeatNumber { get; set; }
         /*[DefaultValue(null)]*/
         [ForeignKey("Employee")]
-        public int? EmployeeId { get; set; } 
+        public int? EmployeeId { get; set; }
         public virtual Employee? Employee { get; set; }
 
     }

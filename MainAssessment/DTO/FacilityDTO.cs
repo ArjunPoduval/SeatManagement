@@ -1,6 +1,4 @@
-﻿using MainAssessment.Tables;
-
-namespace MainAssessment.DTO
+﻿namespace MainAssessment.DTO
 {
     public class FacilityDTO
     {

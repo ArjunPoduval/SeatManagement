@@ -2,8 +2,7 @@
 {
     public class AssetsDTO
     {
-        public int FacilityId { get; set; }
-        public int AssetId { get; set; }
+        public int IndexId { get; set; }
         public int? MeetingRoomId { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MainAssessment.services
 {
@@ -15,7 +14,7 @@ namespace MainAssessment.services
             this._cityRepository = repository;
         }
 
-        
+
         public IEnumerable<City> GetAllCity()
         {
 
@@ -23,15 +22,15 @@ namespace MainAssessment.services
         }
         public void AddCity(CityDTO city)
         {
-        //Validation
+            //Validation
 
-            var cityCreationCheck = _cityRepository.GetAll().FirstOrDefault(c => c.CityName == city.City || c.CityAbbreviation==city.Abbreviation);
+            City? cityCreationCheck = _cityRepository.GetAll().FirstOrDefault(c => c.CityName == city.City || c.CityAbbreviation == city.Abbreviation);
             if (cityCreationCheck != null)
             {
                 throw new ObjectAlreadyExistException();
             }
-        //creation
-            var item = new City()
+            //creation
+            City item = new()
             {
                 CityAbbreviation = city.Abbreviation,
                 CityName = city.City
@@ -42,13 +41,13 @@ namespace MainAssessment.services
 
         public void RemoveCity(int cityid)
         {
-        //validation
-            var item = _cityRepository.GetById(cityid);
+            //validation
+            City item = _cityRepository.GetById(cityid);
             if (item == null)
             {
                 throw new Exception("No City Found.");
             }
-        //Removing
+            //Removing
             else
             {
                 _cityRepository.Remove(item);

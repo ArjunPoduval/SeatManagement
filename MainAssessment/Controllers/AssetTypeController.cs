@@ -3,7 +3,6 @@ using MainAssessment.DTO;
 using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace MainAssessment.Controllers
 {
@@ -32,7 +31,7 @@ namespace MainAssessment.Controllers
                 _assetTypeService.AddAssetType(newAssetType);
                 return Ok();
             }
-            catch(ObjectAlreadyExistException ex)
+            catch (ObjectAlreadyExistException ex)
             {
                 return Conflict(ex.Message);
             }

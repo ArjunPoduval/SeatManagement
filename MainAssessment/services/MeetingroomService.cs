@@ -2,9 +2,6 @@
 using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MainAssessment.services
 {
@@ -26,19 +23,19 @@ namespace MainAssessment.services
 
         public void AddMeetingRoom(MeetingroomDTO meetingRoomTable)
         {
-        //validation
+            //validation
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == meetingRoomTable.FacilityId))
             {
                 throw new Exception("The Facility does not exist.");
             }
             //check if the meeting room already exist
-            if (_meetingRoomTableRepository.GetAll().Any(m => m.FacilityId == meetingRoomTable.FacilityId && m.MeetingRoomNumber==meetingRoomTable.MeetingRoomNumber))
+            if (_meetingRoomTableRepository.GetAll().Any(m => m.FacilityId == meetingRoomTable.FacilityId && m.MeetingRoomNumber == meetingRoomTable.MeetingRoomNumber))
             {
                 throw new Exception("This Facility already has a meeting room with same meeting room number.");
             }
-        //adding meeting room
-            var item = new MeetingRoom()
+            //adding meeting room
+            MeetingRoom item = new()
             {
                 FacilityId = meetingRoomTable.FacilityId,
                 MeetingRoomNumber = meetingRoomTable.MeetingRoomNumber,
@@ -50,8 +47,8 @@ namespace MainAssessment.services
 
         public void UpdateMeetingRoom(int meetingRoomId, MeetingroomDTO updatedMeetingRoomTable)
         {
-        //validation
-            var meetingRoom = _meetingRoomTableRepository.GetById(meetingRoomId);
+            //validation
+            MeetingRoom meetingRoom = _meetingRoomTableRepository.GetById(meetingRoomId);
             if (meetingRoom == null)
             {
                 throw new Exception("The MeetingRoom record does not exist.");
@@ -75,10 +72,10 @@ namespace MainAssessment.services
             _meetingRoomTableRepository.Update(meetingRoom);
             _meetingRoomTableRepository.Save();
         }
-        
+
         public void RemoveMeetingRoom(int meetingRoomId)
         {
-            var meetingRoom = _meetingRoomTableRepository.GetById(meetingRoomId);
+            MeetingRoom meetingRoom = _meetingRoomTableRepository.GetById(meetingRoomId);
             if (meetingRoom == null)
             {
                 throw new Exception("The MeetingRoom record does not exist.");

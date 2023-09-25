@@ -43,8 +43,9 @@ namespace MainAssessment.Controllers
             }
         }
 
-        [HttpPatch("{seatID}")]
-        public IActionResult UpdateSeatDetail(int seatId, int? employeeId)
+        [HttpPatch]
+        [Route("{seatId}")]
+        public IActionResult UpdateSeatDetail([FromRoute] int seatId, int? employeeId)
         {
             try
             {

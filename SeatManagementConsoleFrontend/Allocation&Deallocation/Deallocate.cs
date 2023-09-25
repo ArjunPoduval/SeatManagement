@@ -1,12 +1,5 @@
-﻿using MainAssessment.DTO;
-using MainAssessment.Tables;
+﻿using MainAssessment.Tables;
 using SeatManagementConsoleFrontend.Interfaces;
-using SeatManagementConsoleFrontend.Reports;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeatManagementConsoleFrontend
 {
@@ -16,13 +9,21 @@ namespace SeatManagementConsoleFrontend
         {
             ISeatManagerAPI<Seat> seatdeallocation = new SeatManagementAPICall<Seat>("Seat");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
-            Report reporting = new Report();
 
-            var availableEmployeelist = employeedata.GetData().Where(e => e.IsAllocated == true).ToList();
+            List<Seat> allAllocatedSeats = seatdeallocation.GetData().Where(s => s.EmployeeId != null).ToList();
+            List<Employee> availableEmployeelist = employeedata.GetData().Where(e => e.IsAllocated == true).ToList();
+            Console.WriteLine("\n<---- * Allocated Seats * ---->");
+            if (allAllocatedSeats != null)
+            {
+                foreach (Seat? seat in allAllocatedSeats)
+                {
+                    Console.WriteLine($"SeatId: {seat.SeatId} FacilityId: {seat.FacilityId}");
+                }
+            }
             Console.WriteLine("\n<----- * allocated Employee's * ----->");
             if (availableEmployeelist != null)
             {
-                foreach (var emp in availableEmployeelist)
+                foreach (Employee? emp in availableEmployeelist)
                 {
                     Console.WriteLine($"EmployeeId: {emp.EmployeeId} EmployeName: {emp.EmployeeName}");
                 }
@@ -34,17 +35,13 @@ namespace SeatManagementConsoleFrontend
                 Console.WriteLine("No Employee is available for Deallocation.");
             }
 
-            reporting.Allocatedreport();
 
             Console.WriteLine("Enter SeatId: ");
             int seatId = Convert.ToInt32(Console.ReadLine());
 
-            var deallocatedData = new Seat
-            {
-                SeatId = seatId,
-            };
+            int? id = null;
 
-            Console.WriteLine(seatdeallocation.UpdateDetail(deallocatedData));
+            Console.WriteLine(seatdeallocation.UpdateDetail(seatId, id));
         }
 
         public void DeAllocateEmployeeinCabin()
@@ -53,13 +50,13 @@ namespace SeatManagementConsoleFrontend
             ISeatManagerAPI<Cabin> cabindata = new SeatManagementAPICall<Cabin>("Cabin");
             ISeatManagerAPI<Employee> employeedata = new SeatManagementAPICall<Employee>("Employee");
 
-            var cabinmembers = cabindata.GetData().Where(c=>c.EmployeeId!=null).ToList();   
+            List<Cabin> cabinmembers = cabindata.GetData().Where(c => c.EmployeeId != null).ToList();
 
-            var availableEmployeelist = employeedata.GetData().Where(e => e.IsAllocated == true).ToList();
+            List<Employee> availableEmployeelist = employeedata.GetData().Where(e => e.IsAllocated == true).ToList();
             Console.WriteLine("\n<----- * allocated Employee's * ----->");
             if (availableEmployeelist != null)
             {
-                foreach (var emp in availableEmployeelist)
+                foreach (Employee? emp in availableEmployeelist)
                 {
                     Console.WriteLine($"EmployeeId: {emp.EmployeeId} EmployeName: {emp.EmployeeName}");
                 }
@@ -74,9 +71,9 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("\n<----- * allocated Cabins * ----->");
             if (cabinmembers != null)
             {
-                foreach (var cab in cabinmembers)
+                foreach (Cabin? cab in cabinmembers)
                 {
-                    Console.WriteLine($"FacilityId: {cab.FacilityId} CabinNumber: {cab.CabinNumber} EmployeeId: {cab.EmployeeId}");
+                    Console.WriteLine($"CabinId: {cab.CabinId} FacilityId: {cab.FacilityId} CabinNumber: {cab.CabinNumber} EmployeeId: {cab.EmployeeId}");
                 }
                 Console.WriteLine("<----- * ----->\n");
             }
@@ -89,12 +86,9 @@ namespace SeatManagementConsoleFrontend
 
             Console.WriteLine("Enter cabin ID: ");
             int cabinId = Convert.ToInt32(Console.ReadLine());
+            int? id = null;
 
-            var cabinallocate = new Cabin
-            {
-                CabinId = cabinId
-            };
-            Console.WriteLine(cabindeallocation.UpdateDetail(cabinallocate));
+            Console.WriteLine(cabindeallocation.UpdateDetail(cabinId, id));
         }
 
         public void DeAllocateAssetFromMeetingroom()
@@ -102,12 +96,12 @@ namespace SeatManagementConsoleFrontend
             ISeatManagerAPI<Assets> AssetData = new SeatManagementAPICall<Assets>("Assets");
             ISeatManagerAPI<Assets> AssetDeallocate = new SeatManagementAPICall<Assets>("Assets");
 
-            var allAssets = AssetData.GetData().Where(a=> a.MeetingRoomId!=null).ToList();
+            List<Assets> allAssets = AssetData.GetData().Where(a => a.MeetingRoomId != null).ToList();
 
             Console.WriteLine("\n<----- Allocated Assets ----->");
-            if(allAssets!=null)
+            if (allAssets != null)
             {
-                foreach (var assets in allAssets)
+                foreach (Assets? assets in allAssets)
                 {
                     Console.WriteLine($"AssetIndex: {assets.IndexId} FacilityId: {assets.FacilityId} AssetId: {assets.AssetId} MeetingRoomId: {assets.MeetingRoomId}");
                 }
@@ -122,13 +116,8 @@ namespace SeatManagementConsoleFrontend
             Console.WriteLine("Enter AssetIndex Id: ");
             int indexId = Convert.ToInt32(Console.ReadLine());
 
-
-            var asset = new Assets
-            {
-                IndexId = indexId,
-
-            };
-            Console.WriteLine(AssetDeallocate.UpdateDetail(asset));
+            int? id = null;
+            Console.WriteLine(AssetDeallocate.UpdateDetail(indexId, id));
         }
 
     }

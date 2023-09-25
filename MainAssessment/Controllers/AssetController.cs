@@ -20,7 +20,7 @@ namespace MainAssessment.Controllers
         [HttpGet]
         public IActionResult GetAllAssets()
         {
-            return  Ok(_assetsService.GetAllAssets());
+            return Ok(_assetsService.GetAllAssets());
         }
 
         [HttpPost]
@@ -38,7 +38,7 @@ namespace MainAssessment.Controllers
         }
 
         [HttpPatch("{assetIndexId}")]
-        public IActionResult UpdateAssetDetails( int assetIndexId, int? meetingRoomId)
+        public IActionResult UpdateAssetDetails(int assetIndexId, int? meetingRoomId)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace MainAssessment.Controllers
                 _assetsService.RemoveAssets(assetIndexId);
                 return Ok();
             }
-            catch(ObjectDoNotExist ex)
+            catch (ObjectDoNotExist ex)
             {
                 return Conflict(ex.Message);
             }

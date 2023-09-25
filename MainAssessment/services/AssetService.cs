@@ -2,9 +2,6 @@
 using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MainAssessment.services
 {
@@ -46,7 +43,7 @@ namespace MainAssessment.services
             }
 
             //creation
-            var item = new Assets()
+            Assets item = new()
             {
                 FacilityId = assets.FacilityId,
                 AssetId = assets.AssetId
@@ -56,9 +53,9 @@ namespace MainAssessment.services
             _assetRepository.Save();
         }
 
-        public void UpdateAssetDetails(int assetsIndexId, int? MeetingRoomId)
+        public void UpdateAssetDetails(int IndexId, int? MeetingRoomId)
         {
-            var assetDetails = _assetRepository.GetById(assetsIndexId);
+            Assets assetDetails = _assetRepository.GetById(IndexId);
             if (assetDetails == null)
             {
                 throw new Exception("The Assets record does not exist.");
@@ -69,7 +66,7 @@ namespace MainAssessment.services
             {
                 throw new Exception("The Asset is already allocated");
             }
-            
+
             if (MeetingRoomId == null && assetDetails.MeetingRoomId == null)
             {
                 throw new Exception("The Asset is already unallocated");
@@ -84,7 +81,7 @@ namespace MainAssessment.services
             }
 
             // Update properties with new values
-            
+
             assetDetails.MeetingRoomId = MeetingRoomId;
 
             _assetRepository.Update(assetDetails);
@@ -94,7 +91,7 @@ namespace MainAssessment.services
         public void RemoveAssets(int assetsIndexId)
         {
             //validation
-            var assets = _assetRepository.GetById(assetsIndexId);
+            Assets assets = _assetRepository.GetById(assetsIndexId);
             if (assets == null)
             {
                 throw new ObjectDoNotExist();

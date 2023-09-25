@@ -1,8 +1,6 @@
 ﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using System;
-using System.Collections.Generic;
 
 namespace MainAssessment.services
 {
@@ -24,22 +22,22 @@ namespace MainAssessment.services
 
         public void AddFacility(FacilityDTO facility)
         {
-        //Validation
+            //Validation
             int buildingId = facility.BuildingId;
-            var exist = _buildingRepository.GetById(buildingId);
+            Building exist = _buildingRepository.GetById(buildingId);
             //building id validation
             if (exist == null)
             {
                 throw new Exception("The Building Id does not exist.");
             }
             //facilityname validation
-            var facilitycheck = _facilityRepository.GetAll().FirstOrDefault(c => c.FacilityName == facility.FacilityName && c.Floor == facility.Floor);
+            Facility? facilitycheck = _facilityRepository.GetAll().FirstOrDefault(c => c.FacilityName == facility.FacilityName && c.Floor == facility.Floor);
             if (facilitycheck != null)
             {
                 throw new Exception("Facility with the same Name exist in the same floor");
             }
-        //creation
-            var item = new Facility()
+            //creation
+            Facility item = new()
             {
                 BuildingId = facility.BuildingId,
                 Floor = facility.Floor,
@@ -51,13 +49,13 @@ namespace MainAssessment.services
 
         public void RemoveFacility(int FacilityId)
         {
-        //Validation
-            var item = _facilityRepository.GetById(FacilityId);
+            //Validation
+            Facility item = _facilityRepository.GetById(FacilityId);
             if (item == null)
             {
                 throw new Exception("The Facility does not exist.");
             }
-        //Removing
+            //Removing
             else
             {
                 _facilityRepository.Remove(item);

@@ -3,8 +3,6 @@ using MainAssessment.DTO;
 using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using System;
-using System.Collections.Generic;
 
 namespace MainAssessment.services
 {
@@ -24,14 +22,14 @@ namespace MainAssessment.services
 
         public void AddDepartment(DepartmentCreationDTO newDepartment)
         {
-        //Validation
-            var departmentcreation = _departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentName == newDepartment.departmentName);
+            //Validation
+            Department? departmentcreation = _departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentName == newDepartment.departmentName);
             if (departmentcreation != null)
             {
                 throw new ObjectAlreadyExistException();
             }
-        //Creation
-            var item = new Department()
+            //Creation
+            Department item = new()
             {
                 DepartmentName = newDepartment.departmentName
             };
@@ -41,13 +39,13 @@ namespace MainAssessment.services
 
         public void RemoveDepartment(int DepId)
         {
-        //Validation
-            var item = _departmentRepository.GetById(DepId);
+            //Validation
+            Department item = _departmentRepository.GetById(DepId);
             if (item == null)
             {
                 throw new ObjectDoNotExist();
             }
-        //Removing
+            //Removing
             else
             {
                 _departmentRepository.Remove(item);

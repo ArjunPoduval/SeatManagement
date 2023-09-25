@@ -2,7 +2,6 @@
 using MainAssessment.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace MainAssessment.Controllers
 {
@@ -16,12 +15,12 @@ namespace MainAssessment.Controllers
         {
             try
             {
-                var userAuth = new UserAuthenticationService();
-                var claimsPrincipal = userAuth.AuthenticateUser(user);
+                UserAuthenticationService userAuth = new();
+                System.Security.Claims.ClaimsPrincipal claimsPrincipal = userAuth.AuthenticateUser(user);
                 await HttpContext.SignInAsync("CookieAuthentication", claimsPrincipal);
                 return Ok();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await HttpContext.SignOutAsync("CookieAuthentication");
 

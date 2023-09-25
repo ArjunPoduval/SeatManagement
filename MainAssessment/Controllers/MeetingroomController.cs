@@ -2,7 +2,6 @@
 using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace MainAssessment.Controllers
 {
@@ -45,7 +44,7 @@ namespace MainAssessment.Controllers
                 _meetingRoomService.UpdateMeetingRoom(id, updatedMeetingRoomTable);
                 return Ok();
             }
-            catch(ObjectAlreadyExistException ex)
+            catch (ObjectAlreadyExistException ex)
             {
                 return Conflict(ex.Message);
             }

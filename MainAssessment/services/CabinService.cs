@@ -2,10 +2,6 @@
 using MainAssessment.DTO;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MainAssessment.services
 {
@@ -43,7 +39,7 @@ namespace MainAssessment.services
                 throw new ObjectAlreadyExistException();
             }
 
-            var item = new Cabin()
+            Cabin item = new()
             {
                 FacilityId = cabinTableDTO.FacilityId,
                 CabinNumber = cabinTableDTO.CabinNumber
@@ -54,9 +50,9 @@ namespace MainAssessment.services
 
         public void UpdateCabinDetail(int cabinId, int? employeeId)
         {
-            
+
             // Check if the cabin exists
-            var cabin = _cabinRepository.GetAll()
+            Cabin? cabin = _cabinRepository.GetAll()
                 .FirstOrDefault(c => c.CabinId == cabinId);
 
             if (cabin == null)
@@ -64,7 +60,7 @@ namespace MainAssessment.services
                 throw new Exception("The Cabin does not exist.");
             }
             //if its occupied
-            if (cabin.EmployeeId != null && employeeId!= null)
+            if (cabin.EmployeeId != null && employeeId != null)
             {
                 throw new Exception("Already occupied by an employee");
             }
@@ -82,7 +78,7 @@ namespace MainAssessment.services
 
             if (employeeId.HasValue)
             {
-                var employee = _employeeRepository.GetById(employeeId.Value);
+                Employee employee = _employeeRepository.GetById(employeeId.Value);
                 if (employee != null)
                 {
                     employee.IsAllocated = true;
@@ -93,9 +89,9 @@ namespace MainAssessment.services
                     throw new Exception("Employee doen't Exist");
                 }
             }
-            if (employeeId==null)
+            if (employeeId == null)
             {
-                var employee = _employeeRepository.GetById(cabin.EmployeeId.Value);
+                Employee employee = _employeeRepository.GetById(cabin.EmployeeId.Value);
                 if (employee != null)
                 {
                     employee.IsAllocated = false;
@@ -113,7 +109,7 @@ namespace MainAssessment.services
 
         public void RemoveCabin(int cabinId)
         {
-            var cabin = _cabinRepository.GetById(cabinId);
+            Cabin cabin = _cabinRepository.GetById(cabinId);
             if (cabin == null)
             {
                 throw new Exception("The Cabin record does not exist.");

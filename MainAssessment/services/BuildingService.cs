@@ -24,7 +24,7 @@ namespace MainAssessment.services
         public void AddBuilding(BuildingDTO building)
         {
             int cityId = building.CityId;
-            var exist = _cityRepository.GetById(cityId);
+            City exist = _cityRepository.GetById(cityId);
 
             //validation
             if (exist == null)
@@ -32,13 +32,13 @@ namespace MainAssessment.services
                 throw new Exception("The City Id does not exist.");
             }
 
-            var buildingcreation = _buildingRepository.GetAll().FirstOrDefault(c => c.BuildingName == building.BuildingName && c.BuildingAbbreviation == building.BuildingAbbreviation);
+            Building? buildingcreation = _buildingRepository.GetAll().FirstOrDefault(c => c.BuildingName == building.BuildingName && c.BuildingAbbreviation == building.BuildingAbbreviation);
             if (buildingcreation != null)
             {
                 throw new ObjectAlreadyExistException();
             }
             //insertion   
-            var item = new Building()
+            Building item = new()
             {
                 BuildingAbbreviation = building.BuildingAbbreviation,
                 BuildingName = building.BuildingName,
@@ -51,7 +51,7 @@ namespace MainAssessment.services
         {
             //validation
 
-            var item = _buildingRepository.GetById(buildingId);
+            Building item = _buildingRepository.GetById(buildingId);
             if (item == null)
             {
                 throw new Exception("The Building does not exist.");

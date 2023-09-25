@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MainAssessment.DTO;
 
 namespace SeatManagementConsoleFrontend.Interfaces
 {
@@ -10,7 +6,9 @@ namespace SeatManagementConsoleFrontend.Interfaces
     {
         string CreateData(T data);
         List<T> GetData();
-        string UpdateDetail(T data);
+        string UpdateDetail(int IndexId, int? Id);
+        string UpdateAssetDetail(int IndexId, int? Id);
+        List<T> GenerateReport(SeatAllocationReportRequest requestFilter);
         void DeleteData(T data);
     }
 
