@@ -32,7 +32,7 @@ namespace MainAssessment.services
                 ;
         }
 
-        public void AddSeat(SeatTableDTO seatTable)
+        public void AddSeat(SeatDTO seatTable)
         {
             //validation
             // Check if FacilityId exists in Facility table

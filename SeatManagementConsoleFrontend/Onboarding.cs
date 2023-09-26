@@ -43,7 +43,7 @@ namespace SeatManagementConsoleFrontend
         }
         public static void OnboardSeats()
         {
-            ISeatManagerAPI<SeatTableDTO> addseat = new SeatManagementAPICall<SeatTableDTO>("Seat");
+            ISeatManagerAPI<SeatDTO> addseat = new SeatManagementAPICall<SeatDTO>("Seat");
             ISeatManagerAPI<Seat> seats = new SeatManagementAPICall<Seat>("Seat");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
@@ -82,7 +82,7 @@ namespace SeatManagementConsoleFrontend
             int seatno = seat.Count() + 1;
             for (int i = 0; i < numberofseats; i++)
             {
-                SeatTableDTO seatadd = new()
+                SeatDTO seatadd = new()
                 {
                     FacilityId = facilityid,
                     SeatNumber = seatno
@@ -130,7 +130,7 @@ namespace SeatManagementConsoleFrontend
         public static void OnboardCabin()
         {
             ISeatManagerAPI<Cabin> cabins = new SeatManagementAPICall<Cabin>("Cabin");
-            ISeatManagerAPI<CabinTableDTO> addcabin = new SeatManagementAPICall<CabinTableDTO>("Cabin");
+            ISeatManagerAPI<CabinDTO> addcabin = new SeatManagementAPICall<CabinDTO>("Cabin");
             ISeatManagerAPI<Facility> facilitymanager = new SeatManagementAPICall<Facility>("Facilities");
 
             List<Facility> Facility = facilitymanager.GetData();
@@ -156,7 +156,7 @@ namespace SeatManagementConsoleFrontend
             int cabinno = cabinInFacility.Count() + 1;
             for (int i = 0; i < numberOfCabins; i++)
             {
-                CabinTableDTO cabin = new()
+                CabinDTO cabin = new()
                 {
                     FacilityId = facilityid,
                     CabinNumber = cabinno

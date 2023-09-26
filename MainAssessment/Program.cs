@@ -38,7 +38,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuthentication", options =>
 {
     options.Cookie.Name = "CookieAuthentication";

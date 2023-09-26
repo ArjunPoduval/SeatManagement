@@ -1,5 +1,6 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -26,12 +27,12 @@ namespace MainAssessment.services
             return _cabinRepository.GetAll();
         }
 
-        public void AddCabin(CabinTableDTO cabinTableDTO)
+        public void AddCabin(CabinDTO cabinTableDTO)
         {
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == cabinTableDTO.FacilityId))
             {
-                throw new Exception("The Facility does not exist.");
+                throw new ObjectDoNotExist();
             }
             //check if the cabin already exist
             if (_cabinRepository.GetAll().Any(s => s.FacilityId == cabinTableDTO.FacilityId && s.CabinNumber == cabinTableDTO.CabinNumber))

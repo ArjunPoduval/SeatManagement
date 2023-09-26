@@ -1,5 +1,4 @@
-﻿using MainAssessment.CustomException;
-using MainAssessment.DTO;
+﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,21 +30,10 @@ namespace MainAssessment.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCabin(CabinTableDTO cabinTableDTO)
+        public IActionResult AddCabin(CabinDTO cabinTableDTO)
         {
-            try
-            {
-                _cabinTableService.AddCabin(cabinTableDTO);
-                return Ok("Cabin added successfully.");
-            }
-            catch (ObjectAlreadyExistException ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            _cabinTableService.AddCabin(cabinTableDTO);
+            return Ok("Cabin added successfully.");
         }
 
         [HttpPatch]

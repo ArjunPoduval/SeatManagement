@@ -7,7 +7,7 @@ namespace MainAssessment.Controllers
 {
     [Route("api/controller")]
     [ApiController]
-    public class UserController : Controller
+    public class UserAuthController : Controller
     {
 
         [HttpPost]

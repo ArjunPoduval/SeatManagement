@@ -1,8 +1,8 @@
 ﻿namespace MainAssessment.DTO
 {
-    public class SeatTableDTO
+    public class CabinDTO
     {
         public int FacilityId { get; set; }
-        public int SeatNumber { get; set; }
+        public int CabinNumber { get; set; }
     }
 }

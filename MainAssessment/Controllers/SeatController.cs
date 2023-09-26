@@ -26,7 +26,7 @@ namespace MainAssessment.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSeat(SeatTableDTO seatTableDTO)
+        public IActionResult CreateSeat(SeatDTO seatTableDTO)
         {
             try
             {

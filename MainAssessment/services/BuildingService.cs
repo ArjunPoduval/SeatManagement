@@ -1,5 +1,6 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -54,7 +55,7 @@ namespace MainAssessment.services
             Building item = _buildingRepository.GetById(buildingId);
             if (item == null)
             {
-                throw new Exception("The Building does not exist.");
+                throw new ObjectDoNotExist();
             }
 
             //removing

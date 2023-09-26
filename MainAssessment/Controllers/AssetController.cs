@@ -1,5 +1,4 @@
 ﻿using MainAssessment.DTO;
-using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,19 +54,8 @@ namespace MainAssessment.Controllers
         [Route("{assetIndexId}")]
         public async Task<IActionResult> DeleteAsset(int assetIndexId)
         {
-            try
-            {
-                _assetsService.RemoveAssets(assetIndexId);
-                return Ok();
-            }
-            catch (ObjectDoNotExist ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _assetsService.RemoveAssets(assetIndexId);
+            return Ok();
         }
     }
 }
