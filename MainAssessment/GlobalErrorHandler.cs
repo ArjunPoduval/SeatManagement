@@ -42,9 +42,7 @@ public class GlobalErrorHandler
 
         var errorResponse = new
         {
-            StatusCode = httpContext.Response.StatusCode,
             Message = ex.Message,
-            Success = false
         };
 
         response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -60,9 +58,7 @@ public class GlobalErrorHandler
 
         var errorResponse = new
         {
-            StatusCode = httpContext.Response.StatusCode,
             Message = ex.Message,
-            Success = false
         };
 
         response.StatusCode = (int)HttpStatusCode.BadRequest;

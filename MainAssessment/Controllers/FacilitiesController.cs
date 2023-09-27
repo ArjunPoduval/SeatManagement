@@ -30,9 +30,9 @@ namespace MainAssessment.Controllers
 
         [HttpDelete]
         [Route("{facilityId}")]
-        public async Task<IActionResult> DeleteFacility(int FacilityId)
+        public IActionResult DeleteFacility(int facilityId)
         {
-            facilityService.RemoveFacility(FacilityId);
+            facilityService.RemoveFacility(facilityId);
             return Ok();
         }
     }

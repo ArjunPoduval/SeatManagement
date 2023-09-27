@@ -34,7 +34,6 @@ namespace MainAssessment.Controllers
         public async Task<IActionResult> DeleteCity(int cityId)
         {
             cityServices.RemoveCity(cityId);
-
             return Ok();
         }
     }
