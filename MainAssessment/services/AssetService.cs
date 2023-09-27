@@ -34,12 +34,12 @@ namespace MainAssessment.services
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == assets.FacilityId))
             {
-                throw new Exception("The Facility does not exist.");
+                throw new ObjectDoNotExist("Facility");
             }
             // Check if Assetid exists in Assetlookup table
             if (!_assetTypeRepository.GetAll().Any(a => a.AssetId == assets.AssetId))
             {
-                throw new Exception("The Asset does not exist.");
+                throw new ObjectDoNotExist("Asset");
             }
 
             //creation
@@ -58,7 +58,7 @@ namespace MainAssessment.services
             Assets assetDetails = _assetRepository.GetById(IndexId);
             if (assetDetails == null)
             {
-                throw new Exception("The Assets record does not exist.");
+                throw new ObjectDoNotExist("Asset");
             }
 
             //validation
@@ -77,7 +77,7 @@ namespace MainAssessment.services
                 !_meetingRoomRepository.GetAll().Any(m => m.MeetingRoomId == MeetingRoomId &&
                 m.FacilityId == assetDetails.FacilityId))
             {
-                throw new Exception("The MeetingRoom does not exist in the given facility.");
+                throw new ObjectDoNotExist("MeetingRoom in facility");
             }
 
             // Update properties with new values
@@ -94,7 +94,7 @@ namespace MainAssessment.services
             Assets assets = _assetRepository.GetById(assetsIndexId);
             if (assets == null)
             {
-                throw new ObjectDoNotExist();
+                throw new ObjectDoNotExist("Asset");
             }
 
             //Remove

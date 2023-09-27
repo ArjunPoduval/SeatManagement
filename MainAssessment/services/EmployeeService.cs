@@ -1,5 +1,6 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -27,11 +28,11 @@ namespace MainAssessment.services
             Employee? employeecreaiton = _employeeRepository.GetAll().FirstOrDefault(c => c.EmployeeName == employee.EmployeeName);
             if (employeecreaiton != null)
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("Employee");
             }
             if (_departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentId == employee.DepartmentId) == null)
             {
-                throw new Exception("Departmet Id doesn't exist.");
+                throw new ObjectDoNotExist("Department");
             }
             //Creation
             Employee item = new()
@@ -49,7 +50,7 @@ namespace MainAssessment.services
             Employee employee = _employeeRepository.GetById(employeeId);
             if (employee == null)
             {
-                throw new Exception("The Employee does not exist.");
+                throw new ObjectDoNotExist("Employee");
             }
             //Removing
             else
@@ -67,12 +68,12 @@ namespace MainAssessment.services
             Employee employee = _employeeRepository.GetById(employeeId);
             if (employee == null)
             {
-                throw new Exception("The Employee does not exist.");
+                throw new ObjectDoNotExist("EMployee");
             }
             //department validaiton
             if (_departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentId == updatedEmployee.DepartmentId) == null)
             {
-                throw new Exception("Departmet Id doesn't exist.");
+                throw new ObjectDoNotExist("Department");
             }
             //validating user update
             if (_employeeRepository.GetAll().Any(m => m.EmployeeName == updatedEmployee.EmployeeName && m.DepartmentId == updatedEmployee.DepartmentId))

@@ -1,5 +1,6 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -38,12 +39,12 @@ namespace MainAssessment.services
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == seatTable.FacilityId))
             {
-                throw new Exception("The Facility does not exist.");
+                throw new ObjectDoNotExist("Facility");
             }
             //check if the seat already exist
             if (_seatRepository.GetAll().Any(s => s.FacilityId == seatTable.FacilityId && s.SeatNumber == seatTable.SeatNumber))
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("Seat");
             }
             //adding seat
             Seat item = new()
@@ -64,7 +65,7 @@ namespace MainAssessment.services
 
             if (seat == null)
             {
-                throw new Exception("The Seat does not exist.");
+                throw new ObjectDoNotExist("Seat");
             }
 
             //check seat is already allocated
@@ -95,7 +96,7 @@ namespace MainAssessment.services
                 }
                 else
                 {
-                    throw new Exception("Employee doen't Exist");
+                    throw new ObjectDoNotExist("Employee");
                 }
             }
             if (employeeId == null)
@@ -121,7 +122,7 @@ namespace MainAssessment.services
             Seat seat = _seatRepository.GetById(seatId);
             if (seat == null)
             {
-                throw new Exception("The Seat record does not exist.");
+                throw new ObjectDoNotExist("Seat");
             }
             else
             {

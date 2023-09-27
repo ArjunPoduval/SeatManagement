@@ -26,7 +26,7 @@ namespace MainAssessment.services
             AssetType? newTypecreation = _assetTypeRepository.GetAll().FirstOrDefault(c => c.AssetName == newAssetType.assetName);
             if (newTypecreation != null)
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("AssetType");
             }
             //Creation
             AssetType item = new()
@@ -43,7 +43,7 @@ namespace MainAssessment.services
             AssetType assetType = _assetTypeRepository.GetById(assetTypeId);
             if (assetType == null)
             {
-                throw new ObjectDoNotExist();
+                throw new ObjectDoNotExist("AssetType");
             }
             //Removing
             else

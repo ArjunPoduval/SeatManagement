@@ -30,13 +30,13 @@ namespace MainAssessment.services
             //validation
             if (exist == null)
             {
-                throw new Exception("The City Id does not exist.");
+                throw new ObjectDoNotExist("City");
             }
 
             Building? buildingcreation = _buildingRepository.GetAll().FirstOrDefault(c => c.BuildingName == building.BuildingName && c.BuildingAbbreviation == building.BuildingAbbreviation);
             if (buildingcreation != null)
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("Building");
             }
             //insertion   
             Building item = new()
@@ -55,7 +55,7 @@ namespace MainAssessment.services
             Building item = _buildingRepository.GetById(buildingId);
             if (item == null)
             {
-                throw new ObjectDoNotExist();
+                throw new ObjectDoNotExist("Building");
             }
 
             //removing

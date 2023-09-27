@@ -32,12 +32,12 @@ namespace MainAssessment.services
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == cabinTableDTO.FacilityId))
             {
-                throw new ObjectDoNotExist();
+                throw new ObjectDoNotExist("Facility");
             }
             //check if the cabin already exist
             if (_cabinRepository.GetAll().Any(s => s.FacilityId == cabinTableDTO.FacilityId && s.CabinNumber == cabinTableDTO.CabinNumber))
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("Cabin");
             }
 
             Cabin item = new()
@@ -58,7 +58,7 @@ namespace MainAssessment.services
 
             if (cabin == null)
             {
-                throw new Exception("The Cabin does not exist.");
+                throw new ObjectDoNotExist("Cabin");
             }
             //if its occupied
             if (cabin.EmployeeId != null && employeeId != null)
@@ -87,7 +87,7 @@ namespace MainAssessment.services
                 }
                 else
                 {
-                    throw new Exception("Employee doen't Exist");
+                    throw new ObjectDoNotExist("Employee");
                 }
             }
             if (employeeId == null)
@@ -113,7 +113,7 @@ namespace MainAssessment.services
             Cabin cabin = _cabinRepository.GetById(cabinId);
             if (cabin == null)
             {
-                throw new Exception("The Cabin record does not exist.");
+                throw new ObjectDoNotExist("Cabin");
             }
             else
             {

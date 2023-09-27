@@ -1,4 +1,6 @@
-﻿using MainAssessment.DTO;
+﻿using MainAssessment.CustomException;
+using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -28,13 +30,13 @@ namespace MainAssessment.services
             //building id validation
             if (exist == null)
             {
-                throw new Exception("The Building Id does not exist.");
+                throw new ObjectDoNotExist("Building");
             }
             //facilityname validation
             Facility? facilitycheck = _facilityRepository.GetAll().FirstOrDefault(c => c.FacilityName == facility.FacilityName && c.Floor == facility.Floor);
             if (facilitycheck != null)
             {
-                throw new Exception("Facility with the same Name exist in the same floor");
+                throw new ObjectAlreadyExistException("Facility in same floor");
             }
             //creation
             Facility item = new()
@@ -53,7 +55,7 @@ namespace MainAssessment.services
             Facility item = _facilityRepository.GetById(FacilityId);
             if (item == null)
             {
-                throw new Exception("The Facility does not exist.");
+                throw new ObjectDoNotExist("Facility");
             }
             //Removing
             else

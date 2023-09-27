@@ -1,5 +1,6 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -27,7 +28,7 @@ namespace MainAssessment.services
             City? cityCreationCheck = _cityRepository.GetAll().FirstOrDefault(c => c.CityName == city.City || c.CityAbbreviation == city.Abbreviation);
             if (cityCreationCheck != null)
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("City");
             }
             //creation
             City item = new()
@@ -45,7 +46,7 @@ namespace MainAssessment.services
             City item = _cityRepository.GetById(cityid);
             if (item == null)
             {
-                throw new Exception("No City Found.");
+                throw new ObjectDoNotExist("City");
             }
             //Removing
             else

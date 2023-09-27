@@ -1,5 +1,6 @@
 ﻿using MainAssessment.CustomException;
 using MainAssessment.DTO;
+using MainAssessment.Exceptions;
 using MainAssessment.Interface;
 using MainAssessment.Tables;
 
@@ -27,12 +28,12 @@ namespace MainAssessment.services
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == meetingRoomTable.FacilityId))
             {
-                throw new Exception("The Facility does not exist.");
+                throw new ObjectDoNotExist("Facility");
             }
             //check if the meeting room already exist
             if (_meetingRoomTableRepository.GetAll().Any(m => m.FacilityId == meetingRoomTable.FacilityId && m.MeetingRoomNumber == meetingRoomTable.MeetingRoomNumber))
             {
-                throw new Exception("This Facility already has a meeting room with same meeting room number.");
+                throw new ObjectAlreadyExistException("Room number in Facility");
             }
             //adding meeting room
             MeetingRoom item = new()
@@ -51,17 +52,17 @@ namespace MainAssessment.services
             MeetingRoom meetingRoom = _meetingRoomTableRepository.GetById(meetingRoomId);
             if (meetingRoom == null)
             {
-                throw new Exception("The MeetingRoom record does not exist.");
+                throw new ObjectDoNotExist("MeetingRoom");
             }
             // Check if FacilityId exists in Facility table
             if (!_facilityRepository.GetAll().Any(f => f.FacilityId == updatedMeetingRoomTable.FacilityId))
             {
-                throw new Exception("The Facility does not exist.");
+                throw new ObjectDoNotExist("Facility");
             }
             //check if the meeting room already exist
             if (_meetingRoomTableRepository.GetAll().Any(m => m.FacilityId == updatedMeetingRoomTable.FacilityId && m.MeetingRoomNumber == updatedMeetingRoomTable.MeetingRoomNumber && m.TotalSeats == updatedMeetingRoomTable.TotalSeats))
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("MeetingRoom");
             }
 
             // Update properties with new values
@@ -78,7 +79,7 @@ namespace MainAssessment.services
             MeetingRoom meetingRoom = _meetingRoomTableRepository.GetById(meetingRoomId);
             if (meetingRoom == null)
             {
-                throw new Exception("The MeetingRoom record does not exist.");
+                throw new ObjectDoNotExist("MeetingRoom");
             }
             else
             {
