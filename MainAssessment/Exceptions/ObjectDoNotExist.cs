@@ -2,6 +2,6 @@
 {
     public class ObjectDoNotExist : Exception
     {
-        public ObjectDoNotExist() : base(string.Format("object doesn't exist.")) { }
+        public ObjectDoNotExist(string Object) : base(string.Format($"{Object} doesn't exist.")) { }
     }
 }

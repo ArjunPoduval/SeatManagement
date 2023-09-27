@@ -25,15 +25,8 @@ namespace MainAssessment.Controllers
         [HttpPost]
         public IActionResult CreateAsset(AssetCreationDTO assetsDTO)
         {
-            try
-            {
-                _assetsService.AddAssets(assetsDTO);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _assetsService.AddAssets(assetsDTO);
+            return Ok();
         }
 
         [HttpPatch("{assetIndexId}")]
