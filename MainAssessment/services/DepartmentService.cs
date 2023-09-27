@@ -26,7 +26,7 @@ namespace MainAssessment.services
             Department? departmentcreation = _departmentRepository.GetAll().FirstOrDefault(c => c.DepartmentName == newDepartment.departmentName);
             if (departmentcreation != null)
             {
-                throw new ObjectAlreadyExistException();
+                throw new ObjectAlreadyExistException("Department");
             }
             //Creation
             Department item = new()
@@ -43,7 +43,7 @@ namespace MainAssessment.services
             Department item = _departmentRepository.GetById(DepId);
             if (item == null)
             {
-                throw new ObjectDoNotExist();
+                throw new ObjectDoNotExist("Department");
             }
             //Removing
             else

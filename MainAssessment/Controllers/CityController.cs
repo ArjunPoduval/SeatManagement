@@ -1,5 +1,4 @@
-﻿using MainAssessment.CustomException;
-using MainAssessment.DTO;
+﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,40 +25,17 @@ namespace MainAssessment.Controllers
         [HttpPost]
         public IActionResult CreateCity(CityDTO cityDTO)
         {
-            try
-            {
-                cityServices.AddCity(cityDTO);
-                return Ok();
-            }
-            catch (ObjectAlreadyExistException ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-
-
+            cityServices.AddCity(cityDTO);
+            return Ok();
         }
+
         [HttpDelete]
         [Route("{cityId}")]
         public async Task<IActionResult> DeleteCity(int cityId)
         {
-            try
-            {
-                cityServices.RemoveCity(cityId);
+            cityServices.RemoveCity(cityId);
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            return Ok();
         }
-
-
     }
 }

@@ -59,12 +59,12 @@ namespace MainAssessment.services
         {
             if (reportFilter.CityId != 0)
             {
-                City cityFiltered = _cityRepository.GetById(reportFilter.CityId) ?? throw new ObjectDoNotExist();
+                City cityFiltered = _cityRepository.GetById(reportFilter.CityId) ?? throw new ObjectDoNotExist("City");
                 reportResponse = reportResponse.Where(c => c.CityAbbreviation == cityFiltered.CityAbbreviation);
 
                 if (reportFilter.BuildingId != 0)
                 {
-                    Building buildingFiltered = _buildingRepository.GetById(reportFilter.BuildingId) ?? throw new ObjectDoNotExist();
+                    Building buildingFiltered = _buildingRepository.GetById(reportFilter.BuildingId) ?? throw new ObjectDoNotExist("Building");
                     reportResponse = reportResponse.Where(c => c.BuildingAbbreviation == buildingFiltered.BuildingAbbreviation);
 
                     if (reportFilter.FloorNumber != 0)

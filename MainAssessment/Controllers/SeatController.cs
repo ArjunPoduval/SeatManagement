@@ -1,6 +1,4 @@
-﻿using MainAssessment.CustomException;
-using MainAssessment.DTO;
-using MainAssessment.Exceptions;
+﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,19 +26,8 @@ namespace MainAssessment.Controllers
         [HttpPost]
         public IActionResult CreateSeat(SeatDTO seatTableDTO)
         {
-            try
-            {
-                _seatService.AddSeat(seatTableDTO);
-                return Ok();
-            }
-            catch (ObjectAlreadyExistException ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _seatService.AddSeat(seatTableDTO);
+            return Ok();
         }
 
         [HttpPatch]
@@ -62,33 +49,14 @@ namespace MainAssessment.Controllers
         [Route("{id}")]
         public IActionResult DeleteSeat(int id)
         {
-            try
-            {
-                _seatService.RemoveSeat(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _seatService.RemoveSeat(id);
+            return Ok();
         }
 
         [HttpPost("reports")]
         public IActionResult GenerateSeatAllocationReport(SeatAllocationReportRequest allocationFilterRequest)
         {
-            try
-            {
-                return Ok(_allocatedSeatReport.GenerateSeatAllocationReport(allocationFilterRequest));
-            }
-            catch (ObjectDoNotExist ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            return Ok(_allocatedSeatReport.GenerateSeatAllocationReport(allocationFilterRequest));
         }
     }
 }

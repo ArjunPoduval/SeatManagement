@@ -1,5 +1,4 @@
-﻿using MainAssessment.CustomException;
-using MainAssessment.DTO;
+﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,34 +24,16 @@ namespace MainAssessment.Controllers
         [HttpPost]
         public IActionResult CreateEmployee(EmployeeDTO employeeDTO)
         {
-            try
-            {
-                _employeeService.AddEmployee(employeeDTO);
-                return Ok();
-            }
-            catch (ObjectAlreadyExistException ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _employeeService.AddEmployee(employeeDTO);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            try
-            {
-                _employeeService.RemoveEmployee(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _employeeService.RemoveEmployee(id);
+            return Ok();
         }
 
         [HttpPatch("{id}")]

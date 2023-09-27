@@ -18,15 +18,8 @@ namespace MainAssessment.Controllers
         [HttpGet]
         public IActionResult GetAllCabins()
         {
-            try
-            {
-                IEnumerable<Tables.Cabin> cabins = _cabinTableService.GetAllCabins();
-                return Ok(cabins);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            IEnumerable<Tables.Cabin> cabins = _cabinTableService.GetAllCabins();
+            return Ok(cabins);
         }
 
         [HttpPost]
@@ -56,15 +49,8 @@ namespace MainAssessment.Controllers
         [Route("{cabinId}")]
         public IActionResult RemoveCabin(int cabinId)
         {
-            try
-            {
-                _cabinTableService.RemoveCabin(cabinId);
-                return Ok("Cabin removed successfully.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            _cabinTableService.RemoveCabin(cabinId);
+            return Ok("Cabin removed successfully.");
         }
     }
 }

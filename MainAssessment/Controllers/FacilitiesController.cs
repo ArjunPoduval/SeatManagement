@@ -24,30 +24,16 @@ namespace MainAssessment.Controllers
         [HttpPost]
         public IActionResult CreateFacility(FacilityDTO facilityDTO)
         {
-            try
-            {
-                facilityService.AddFacility(facilityDTO);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            facilityService.AddFacility(facilityDTO);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("{facilityId}")]
         public async Task<IActionResult> DeleteFacility(int FacilityId)
         {
-            try
-            {
-                facilityService.RemoveFacility(FacilityId);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            facilityService.RemoveFacility(FacilityId);
+            return Ok();
         }
     }
 }

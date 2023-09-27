@@ -1,6 +1,4 @@
-﻿using MainAssessment.CustomException;
-using MainAssessment.DTO;
-using MainAssessment.Exceptions;
+﻿using MainAssessment.DTO;
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,38 +25,16 @@ namespace MainAssessment.Controllers
         [HttpPost]
         public IActionResult CreateDepartment(DepartmentCreationDTO newDepartment)
         {
-            try
-            {
-                departmentService.AddDepartment(newDepartment);
-                return Ok();
-            }
-            catch (ObjectAlreadyExistException ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            departmentService.AddDepartment(newDepartment);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("{depId}")]
         public async Task<IActionResult> DeleteDepartment(int depId)
         {
-            try
-            {
-                departmentService.RemoveDepartment(depId);
-                return Ok();
-            }
-            catch (ObjectDoNotExist ex)
-            {
-                return Conflict(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            departmentService.RemoveDepartment(depId);
+            return Ok();
         }
     }
 }
