@@ -22,7 +22,7 @@ namespace MainAssessment.Controllers
             return Ok(departmentService.GetAllDepartments());
         }
 
-        [HttpPost]
+        [HttpPatch]
         public IActionResult CreateDepartment(DepartmentCreationDTO newDepartment)
         {
             departmentService.AddDepartment(newDepartment);

@@ -2,7 +2,6 @@
 using MainAssessment.Interface;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace MainAssessment.Controllers
 {
     [Route("api/[controller]")]
@@ -15,7 +14,6 @@ namespace MainAssessment.Controllers
         {
             _assetsService = assetsService;
         }
-
         [HttpGet]
         public IActionResult GetAllAssets()
         {
@@ -29,12 +27,13 @@ namespace MainAssessment.Controllers
             return Ok();
         }
 
-        [HttpPatch("{assetIndexId}")]
-        public IActionResult UpdateAssetDetails(int assetIndexId, int? meetingRoomId)
+
+        [HttpPatch("{assetindexid}")]
+        public IActionResult UpdateAssetDetails(int assetindexid, int? meetingRoomId)
         {
             try
             {
-                _assetsService.UpdateAssetDetails(assetIndexId, meetingRoomId);
+                _assetsService.UpdateAssetDetails(assetindexid, meetingRoomId);
                 return Ok();
             }
             catch (Exception ex)
@@ -44,10 +43,10 @@ namespace MainAssessment.Controllers
         }
 
         [HttpDelete]
-        [Route("{assetIndexId}")]
-        public async Task<IActionResult> DeleteAsset(int assetIndexId)
+        [Route("{assetindexid}")]
+        public async Task<IActionResult> DeleteAsset(int assetindexid)
         {
-            _assetsService.RemoveAssets(assetIndexId);
+            _assetsService.RemoveAssets(assetindexid);
             return Ok();
         }
     }

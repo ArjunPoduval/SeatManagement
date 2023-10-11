@@ -16,7 +16,7 @@ namespace MainAssessment.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllMeetingRooms()
+        public async Task<IActionResult> GetAllMeetingRooms()
         {
             return Ok(_meetingRoomService.GetAllMeetingRooms());
         }

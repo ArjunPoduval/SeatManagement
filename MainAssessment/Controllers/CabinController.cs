@@ -26,7 +26,7 @@ namespace MainAssessment.Controllers
         public IActionResult AddCabin(CabinDTO cabinTableDTO)
         {
             _cabinTableService.AddCabin(cabinTableDTO);
-            return Ok("Cabin added successfully.");
+            return Ok();
         }
 
         [HttpPatch]

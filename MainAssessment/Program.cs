@@ -49,6 +49,14 @@ builder.Services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuth
     };
 });
 
+builder.Services.AddCors(c => c.AddPolicy("CorsPolicy", corsBuilder =>
+{
+    corsBuilder
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowAnyOrigin();
+}));
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -62,8 +70,14 @@ WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(c =>
+    {
+        c.SerializeAsV2 = true;
+    });
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("v1/swagger.json", "SeatManagement V1");
+    });
 }
 
 app.UseHttpsRedirection();
@@ -75,5 +89,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseMiddleware<GlobalErrorHandler>();
-
+app.UseCors("CorsPolicy");
 app.Run();
